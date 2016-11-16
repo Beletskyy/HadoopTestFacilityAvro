@@ -2,6 +2,7 @@ package com.nixsolutions.hadoop.facilityavro;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Properties;
 
 import org.apache.avro.file.DataFileWriter;
@@ -73,11 +74,12 @@ public class Main {
 
             FSDataOutputStream fin = fs.create(filenamePath);
             // fin.writeUTF("hello");
-            fin.writeChars("sdsdf");
+            // fin.writeChars("sdsdf");
             fin.close();
         } catch (Exception e) {
             // TODO: handle exception
         }
+        OutputStream out = fs.create(filenamePath);
 
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
         config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
@@ -97,7 +99,7 @@ public class Main {
 
         new File(outputPath).mkdir();
         // create the job definition, and run it
-        FlowDef flowDef = Main.fileProcessing(source, sink, outputFile);
+        FlowDef flowDef = Main.fileProcessing(source, sink, out);
         Flow wcFlow = flowConnector.connect(flowDef);
         flowDef.setAssertionLevel(AssertionLevel.VALID);
         wcFlow.complete();
@@ -105,9 +107,9 @@ public class Main {
     }
 
     public static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink,
-            File outputFile) throws IOException {
+            OutputStream out) throws IOException {
 
-        fileWriter.create(facility.getSchema(), outputFile);
+        fileWriter.create(facility.getSchema(), out);
         Pipe pipe = new Each("split", new Fields("line"),
                 new FileProcessing(new Fields("line")), Fields.SWAP);
 
