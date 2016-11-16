@@ -66,11 +66,11 @@ public class Main {
 
         Configuration config = new Configuration();
         FileSystem fs = FileSystem.get(config);
-        Path filenamePath = new Path(outputPath + "/asdasd/facility.avro");
+        Path filenamePath = new Path("facility.avro");
         try {
-            // if (fs.exists(filenamePath)) {
-            // fs.delete(filenamePath, true);
-            // }
+            if (fs.exists(filenamePath)) {
+                fs.delete(filenamePath, true);
+            }
 
             FSDataOutputStream fin = fs.create(filenamePath);
             // fin.writeUTF("hello");
