@@ -67,11 +67,14 @@ public class Main {
             }
 
             FSDataOutputStream fin = fs.create(filenamePath);
-            fin.writeUTF("hello");
+            // fin.writeUTF("hello");
             fin.close();
         } catch (Exception e) {
             // TODO: handle exception
         }
+
+        config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
+        config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
 
         // Input file
         String inputPath = args[0];
