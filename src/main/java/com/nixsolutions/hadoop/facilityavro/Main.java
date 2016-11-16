@@ -17,11 +17,11 @@ import cascading.operation.Function;
 import cascading.operation.FunctionCall;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
-import cascading.scheme.local.TextDelimited;
-import cascading.scheme.local.TextLine;
+import cascading.scheme.hadoop.TextDelimited;
+import cascading.scheme.hadoop.TextLine;
 import cascading.tap.SinkMode;
 import cascading.tap.Tap;
-import cascading.tap.local.FileTap;
+import cascading.tap.hadoop.Hfs;
 import cascading.tuple.Fields;
 import cascading.tuple.Tuple;
 import cascading.tuple.TupleEntry;
@@ -31,7 +31,8 @@ import cascading.tuple.TupleEntry;
  *
  */
 public class Main {
-    private static final File outputFile = new File("bin/avro/facility.avro");
+    // private static final File outputFile = new File(
+    // outputPath + "facility.avro");
 
     static Facility facility = new Facility();
     static DatumWriter<Facility> datumWriter = new SpecificDatumWriter<Facility>(
@@ -41,51 +42,43 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        String sourcePath = "src/main/resources/mapping";
-        Tap<?, ?, ?> source = new FileTap(new TextLine(), sourcePath);
+        // Input file
+        String inputPath = args[0];
 
-        // actual output of the job
-        String sinkPath = "target/mapping.txt";
-        Tap<?, ?, ?> sink = new FileTap(new TextDelimited(true, "\t"), sinkPath,
+        // Output file
+        String outputPath = args[1];
+        File outputFile = new File(outputPath + "/facility.avro");
+        // create the source tap
+        Tap<?, ?, ?> source = new Hfs(new TextLine(), inputPath);
+
+        // Create a sink tap to write to the Hfs; by default, TextDelimited
+        // writes all fields out
+        Tap<?, ?, ?> sink = new Hfs(new TextDelimited(true, "\t"), outputPath,
                 SinkMode.REPLACE);
+
+        // String sourcePath = "src/main/resources/mapping";
+        // Tap<?, ?, ?> source = new FileTap(new TextLine(), sourcePath);
+        //
+        // // actual output of the job
+        // String sinkPath = "target/mapping.txt";
+        // Tap<?, ?, ?> sink = new FileTap(new TextDelimited(true, "\t"),
+        // sinkPath,
+        // SinkMode.REPLACE);
 
         if (outputFile.exists()) {
             outputFile.delete();
         }
 
-        new File("bin/avro").mkdir();
+        new File(outputPath).mkdir();
         // create the job definition, and run it
-        FlowDef flowDef = Main.fileProcessing(source, sink);
+        FlowDef flowDef = Main.fileProcessing(source, sink, outputFile);
         new LocalFlowConnector().connect(flowDef).complete();
         fileWriter.close();
     }
 
-    public static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink)
-            throws IOException {
+    public static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink,
+            File outputFile) throws IOException {
 
-        // // Declare the field names used to parse out of the log file
-        // Fields apacheFields = new Fields("TruvenFacilityName", "AcoId",
-        // "TruvenFacilityId", "CDAFacilityId", "CdaClientCode");
-        //
-        // // Define the regular expression used to parse the log file
-        // String apacheRegex = "^(.*)\\|(.*)\\|(.*)\\|(.*)\\|(.*)$";
-        //
-        // // Declare the groups from the above regex. Each group will be given
-        // a
-        // // field name from 'apacheFields'
-        // int[] allGroups = { 1, 2, 3, 4, 5 };
-        //
-        // // Create the parser
-        // RegexParser parser = new RegexParser(apacheFields, apacheRegex,
-        // allGroups);
-        // // using Each for filtering values with regex
-        // Pipe processPipe = new Each("processPipe", new Fields("line"),
-        // parser,
-        // Fields.RESULTS);
-        //
-        // Filter filter = new RegexFilter("[^TruvenFacilityName]");
-        // processPipe = new Each(processPipe, new Fields("TruvenFacilityName"),
-        // filter);
         fileWriter.create(facility.getSchema(), outputFile);
         Pipe pipe = new Each("split", new Fields("line"),
                 new FileProcessing(new Fields("line")), Fields.SWAP);
