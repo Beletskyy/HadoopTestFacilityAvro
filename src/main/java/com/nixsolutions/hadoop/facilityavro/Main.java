@@ -74,7 +74,7 @@ public class Main {
             // FSDataOutputStream fin = fs.create(filenamePath);
             // fin.writeUTF("hello");
             // fin.writeChars("sdsdf");
-            fin.close();
+            // fin.close();
         } catch (Exception e) {
             // TODO: handle exception
         }
