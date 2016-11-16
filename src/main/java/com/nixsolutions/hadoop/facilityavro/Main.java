@@ -68,9 +68,9 @@ public class Main {
         FileSystem fs = FileSystem.get(config);
         Path filenamePath = new Path(outputPath + "/asdasd/facility.avro");
         try {
-            if (fs.exists(filenamePath)) {
-                fs.delete(filenamePath, true);
-            }
+            // if (fs.exists(filenamePath)) {
+            // fs.delete(filenamePath, true);
+            // }
 
             FSDataOutputStream fin = fs.create(filenamePath);
             // fin.writeUTF("hello");
