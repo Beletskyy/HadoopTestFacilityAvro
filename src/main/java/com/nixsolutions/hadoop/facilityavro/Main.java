@@ -2,6 +2,7 @@ package com.nixsolutions.hadoop.facilityavro;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Properties;
 
 import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.io.DatumWriter;
@@ -9,14 +10,17 @@ import org.apache.avro.specific.SpecificDatumWriter;
 
 import com.nixsolutions.hadoop.model.Facility;
 
+import cascading.flow.Flow;
 import cascading.flow.FlowDef;
 import cascading.flow.FlowProcess;
-import cascading.flow.local.LocalFlowConnector;
+import cascading.flow.hadoop2.Hadoop2MR1FlowConnector;
+import cascading.operation.AssertionLevel;
 import cascading.operation.BaseOperation;
 import cascading.operation.Function;
 import cascading.operation.FunctionCall;
 import cascading.pipe.Each;
 import cascading.pipe.Pipe;
+import cascading.property.AppProps;
 import cascading.scheme.hadoop.TextDelimited;
 import cascading.scheme.hadoop.TextLine;
 import cascading.tap.SinkMode;
@@ -41,6 +45,11 @@ public class Main {
             datumWriter);
 
     public static void main(String[] args) throws IOException {
+
+        Properties properties = new Properties();
+        AppProps.setApplicationJarClass(properties, Main.class);
+        Hadoop2MR1FlowConnector flowConnector = new Hadoop2MR1FlowConnector(
+                properties);
 
         // Input file
         String inputPath = args[0];
@@ -72,7 +81,9 @@ public class Main {
         new File(outputPath).mkdir();
         // create the job definition, and run it
         FlowDef flowDef = Main.fileProcessing(source, sink, outputFile);
-        new LocalFlowConnector().connect(flowDef).complete();
+        Flow wcFlow = flowConnector.connect(flowDef);
+        flowDef.setAssertionLevel(AssertionLevel.VALID);
+        wcFlow.complete();
         fileWriter.close();
     }
 
