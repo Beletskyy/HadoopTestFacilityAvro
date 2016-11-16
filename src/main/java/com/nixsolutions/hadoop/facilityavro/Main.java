@@ -57,10 +57,15 @@ public class Main {
         AppProps.setApplicationName(properties, "facility");
         Hadoop2MR1FlowConnector flowConnector = new Hadoop2MR1FlowConnector(
                 properties);
+        // Input file
+        String inputPath = args[0];
+
+        // Output file
+        String outputPath = args[1];
 
         Configuration config = new Configuration();
         FileSystem fs = FileSystem.get(config);
-        Path filenamePath = new Path("input.txt");
+        Path filenamePath = new Path(outputPath + "/facility.avro");
         try {
             if (fs.exists(filenamePath)) {
                 fs.delete(filenamePath, true);
@@ -76,11 +81,6 @@ public class Main {
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
         config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
 
-        // Input file
-        String inputPath = args[0];
-
-        // Output file
-        String outputPath = args[1];
         File outputFile = new File(outputPath + "/facility.avro");
         // create the source tap
         Tap<?, ?, ?> source = new Hfs(new TextLine(), inputPath);
