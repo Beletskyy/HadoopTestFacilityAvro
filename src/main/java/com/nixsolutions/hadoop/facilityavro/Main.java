@@ -9,6 +9,7 @@ import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.io.DatumWriter;
 import org.apache.avro.specific.SpecificDatumWriter;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
@@ -78,7 +79,7 @@ public class Main {
         } catch (Exception e) {
             // TODO: handle exception
         }
-        OutputStream out = fs.create(filenamePath);
+        FSDataOutputStream out = fs.create(filenamePath);
 
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
         config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
