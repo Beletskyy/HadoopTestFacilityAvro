@@ -73,6 +73,7 @@ public class Main {
 
             FSDataOutputStream fin = fs.create(filenamePath);
             // fin.writeUTF("hello");
+            fin.writeChars("sdsdf");
             fin.close();
         } catch (Exception e) {
             // TODO: handle exception
@@ -89,15 +90,6 @@ public class Main {
         // writes all fields out
         Tap<?, ?, ?> sink = new Hfs(new TextDelimited(true, "\t"), outputPath,
                 SinkMode.REPLACE);
-
-        // String sourcePath = "src/main/resources/mapping";
-        // Tap<?, ?, ?> source = new FileTap(new TextLine(), sourcePath);
-        //
-        // // actual output of the job
-        // String sinkPath = "target/mapping.txt";
-        // Tap<?, ?, ?> sink = new FileTap(new TextDelimited(true, "\t"),
-        // sinkPath,
-        // SinkMode.REPLACE);
 
         if (outputFile.exists()) {
             outputFile.delete();
