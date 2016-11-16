@@ -9,7 +9,6 @@ import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.io.DatumWriter;
 import org.apache.avro.specific.SpecificDatumWriter;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 
@@ -66,13 +65,13 @@ public class Main {
 
         Configuration config = new Configuration();
         FileSystem fs = FileSystem.get(config);
-        Path filenamePath = new Path("facility.avro");
+        Path filenamePath = new Path(outputPath + "/facility.avro");
         try {
             if (fs.exists(filenamePath)) {
                 fs.delete(filenamePath, true);
             }
 
-            FSDataOutputStream fin = fs.create(filenamePath);
+            // FSDataOutputStream fin = fs.create(filenamePath);
             // fin.writeUTF("hello");
             // fin.writeChars("sdsdf");
             fin.close();
