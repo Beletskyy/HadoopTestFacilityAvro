@@ -48,12 +48,11 @@ public class Main {
 
         Properties properties = new Properties();
         AppProps.setApplicationJarClass(properties, Main.class);
-        Hadoop2MR1FlowConnector flowConnector = new Hadoop2MR1FlowConnector(
-                properties);
-
         AppProps.addApplicationTag(properties, "tutorials");
         AppProps.addApplicationTag(properties, "cluster:development");
         AppProps.setApplicationName(properties, "facility");
+        Hadoop2MR1FlowConnector flowConnector = new Hadoop2MR1FlowConnector(
+                properties);
 
         // Input file
         String inputPath = args[0];
