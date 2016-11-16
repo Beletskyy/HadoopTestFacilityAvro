@@ -7,6 +7,10 @@ import java.util.Properties;
 import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.io.DatumWriter;
 import org.apache.avro.specific.SpecificDatumWriter;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 
 import com.nixsolutions.hadoop.model.Facility;
 
@@ -53,6 +57,21 @@ public class Main {
         AppProps.setApplicationName(properties, "facility");
         Hadoop2MR1FlowConnector flowConnector = new Hadoop2MR1FlowConnector(
                 properties);
+
+        Configuration config = new Configuration();
+        FileSystem fs = FileSystem.get(config);
+        Path filenamePath = new Path("input.txt");
+        try {
+            if (fs.exists(filenamePath)) {
+                fs.delete(filenamePath, true);
+            }
+
+            FSDataOutputStream fin = fs.create(filenamePath);
+            fin.writeUTF("hello");
+            fin.close();
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
 
         // Input file
         String inputPath = args[0];
