@@ -74,7 +74,7 @@ public class Main {
         File file = new File("ladkjslkjas/facility.avro");
 
 
-        Path fileNamePath = new Path("output/facility.avro");
+        Path fileNamePath = new Path(outputPath +"/facility.avro");
         FSDataOutputStream fsOut = null;
         try {
             if (fs.exists(fileNamePath)) {
