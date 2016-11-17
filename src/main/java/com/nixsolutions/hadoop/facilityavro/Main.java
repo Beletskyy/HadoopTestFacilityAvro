@@ -88,7 +88,7 @@ public class Main {
 
         // Create a sink tap to write to the Hfs; by default, TextDelimited
         // writes all fields out
-        Tap<?, ?, ?> sink = new Hfs(new TextDelimited(true, "\t"), outputPath,
+        Tap<?, ?, ?> sink = new Hfs(new TextDelimited(true, "\t"), "Tmp",
                 SinkMode.REPLACE);
 
 //        new File(outputPath).mkdir();
