@@ -63,7 +63,7 @@ public class Main {
         // Input file
         String inputPath = args[0];
         // Output file
-        String outputPath = args[1] + "/facility.avro";
+        String outputPath = args[1];
 
         Configuration config = new Configuration();
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
