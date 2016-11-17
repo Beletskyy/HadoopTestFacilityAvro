@@ -71,7 +71,7 @@ public class Main {
             if (fs.exists(filenamePath)) {
                 fs.delete(filenamePath, true);
             }
-
+            FSDataOutputStream out = fs.create(filenamePath);
             // FSDataOutputStream fin = fs.create(filenamePath);
             // fin.writeUTF("hello");
             // fin.writeChars("sdsdf");
@@ -79,7 +79,6 @@ public class Main {
         } catch (Exception e) {
             // TODO: handle exception
         }
-        FSDataOutputStream out = fs.create(filenamePath);
 
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
         config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
