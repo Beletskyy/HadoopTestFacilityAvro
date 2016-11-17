@@ -73,7 +73,7 @@ public class Main {
         Path outputtmp = new Path("outputtmp/outputtmp.txt");
         fs.create(outputtmp);
 
-        Path outputtmp2 = new Path(outputPath + "/outputtmp2/outputtmp2.txt");
+        Path outputtmp2 = new Path(outputPath + "outputtmp2/outputtmp2.txt");
         System.out.println("outputtmp2 - " + outputtmp2.toString());
         fs.create(outputtmp2);
 
