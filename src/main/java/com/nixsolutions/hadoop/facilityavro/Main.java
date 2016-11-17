@@ -117,7 +117,7 @@ public class Main {
         return FlowDef.flowDef()//
                 .addSource(pipe, source) //
                 .addTail(pipe)//
-                .addSink(pipe, sink);
+                /*.addSink(pipe, sink)*/;
     }
 
     public static class FileProcessing extends BaseOperation
