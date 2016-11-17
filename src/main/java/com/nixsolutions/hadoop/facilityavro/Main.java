@@ -70,14 +70,14 @@ public class Main {
         config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
 
         FileSystem fs = FileSystem.get(config);
-//        Path output = new Path("sdfsdf/sdfsdf");
+        Path outputtmp = new Path("sdfsdf/sdfsdf");
         Path fileNamePath = new Path(outputPath + "/facility.avro");
         FSDataOutputStream fsOut = null;
         try {
             if (fs.exists(fileNamePath)) {
                 fs.delete(fileNamePath, true);
             }
-//            fs.create(output);
+            fs.create(outputtmp);
 
             fsOut = fs.create(fileNamePath);
             // FSDataOutputStream fin = fs.create(fileNamePath);
@@ -88,7 +88,7 @@ public class Main {
             // TODO: handle exception
         }
 
-   //     File outputFile = new File(outputPath + "/facilityFile.avro");
+
         // create the source tap
         Tap<?, ?, ?> source = new Hfs(new TextLine(), inputPath);
 
@@ -96,10 +96,6 @@ public class Main {
         // writes all fields out
         Tap<?, ?, ?> sink = new Hfs(new TextDelimited(true, "\t"), outputPath,
                 SinkMode.REPLACE);
-
-    //    if (outputFile.exists()) {
-   //         outputFile.delete();
-    //    }
 
         new File(outputPath).mkdir();
         // create the job definition, and run it
