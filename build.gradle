@@ -31,8 +31,8 @@ ext.cascadingVersion = '3.1.0'
 ext.hadoopVersion = '2.6.0'
 
 // Change setting to 1.6 if you want to build with Java 6
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 dependencies {
   compileAvro
@@ -68,6 +68,11 @@ jar {
   doFirst {
     into( 'lib' ) {
       from { configurations.compile.minus( [configurations.provided] ) }
+/*      from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude "META-INF*//*.SF"
+        exclude "META-INF*//*.DSA"
+        exclude "META-INF*//*.RSA"
+      }*/
     }
   }
 
