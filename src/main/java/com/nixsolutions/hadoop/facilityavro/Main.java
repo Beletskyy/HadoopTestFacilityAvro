@@ -63,17 +63,17 @@ public class Main {
         // Input file
         String inputPath = args[0];
         // Output file
-        String outputPath = args[1];
+        String outputPath = args[1] + "/facility.avro";
 
         Configuration config = new Configuration();
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
         config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
 
         FileSystem fs = FileSystem.get(config);
-        
 
 
-        Path fileNamePath = new Path(outputPath + "/output/facility.avro");
+
+        Path fileNamePath = new Path(outputPath);
         FSDataOutputStream fsOut = null;
         try {
             if (fs.exists(fileNamePath)) {
@@ -91,13 +91,14 @@ public class Main {
         Tap<?, ?, ?> sink = new Hfs(new TextDelimited(true, "\t"), outputPath,
                 SinkMode.REPLACE);
 
-        new File(outputPath).mkdir();
+//        new File(outputPath).mkdir();
         // create the job definition, and run it
         FlowDef flowDef = Main.fileProcessing(source, sink, fsOut);
         Flow wcFlow = flowConnector.connect(flowDef);
         flowDef.setAssertionLevel(AssertionLevel.VALID);
         wcFlow.complete();
         fileWriter.close();
+        fsOut.flush();
         fsOut.close();
     }
 
