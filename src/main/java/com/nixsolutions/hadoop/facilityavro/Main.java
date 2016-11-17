@@ -71,10 +71,10 @@ public class Main {
 
         FileSystem fs = FileSystem.get(config);
 
-        File file = new File(outputPath + "/facility.avro");
+        File file = new File("ladkjslkjas/facility.avro");
 
 
-        Path fileNamePath = new Path(file.getPath());
+        Path fileNamePath = new Path("output/facility.avro");
         FSDataOutputStream fsOut = null;
         try {
             if (fs.exists(fileNamePath)) {
