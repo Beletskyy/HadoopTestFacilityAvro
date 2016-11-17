@@ -50,7 +50,9 @@ public class Main {
             datumWriter);
 
     public static void main(String[] args) throws IOException {
-
+        if (args.length != 2) {
+            usage();
+        }
         Properties properties = new Properties();
         AppProps.setApplicationJarClass(properties, Main.class);
         AppProps.addApplicationTag(properties, "tutorials");
@@ -60,7 +62,6 @@ public class Main {
                 properties);
         // Input file
         String inputPath = args[0];
-
         // Output file
         String outputPath = args[1];
 
@@ -70,7 +71,7 @@ public class Main {
 
         FileSystem fs = FileSystem.get(config);
 //        Path output = new Path("sdfsdf/sdfsdf");
-        Path filenamePath = new Path(outputPath + "/facility.avro");
+        Path filenamePath = new Path(outputPath + "/File/facility.avro");
         FSDataOutputStream fsOut = null;
         try {
             if (fs.exists(filenamePath)) {
@@ -87,7 +88,7 @@ public class Main {
             // TODO: handle exception
         }
 
-        File outputFile = new File(outputPath + "/File/facility.avro");
+        File outputFile = new File(outputPath + "/facilityFile.avro");
         // create the source tap
         Tap<?, ?, ?> source = new Hfs(new TextLine(), inputPath);
 
@@ -108,6 +109,11 @@ public class Main {
         wcFlow.complete();
         fileWriter.close();
         fsOut.close();
+    }
+
+    static void usage () {
+            System.out.println("Usage : HadoopDFSFileReadWrite <inputfile> <output file>");
+            System.exit(1);
     }
 
     public static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink,
