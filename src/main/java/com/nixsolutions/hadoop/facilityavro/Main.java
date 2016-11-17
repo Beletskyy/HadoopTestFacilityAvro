@@ -70,8 +70,8 @@ public class Main {
         config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
 
         FileSystem fs = FileSystem.get(config);
-        Path outputtmp = new Path("sdfsdf/sdfsdf");
-        Path fileNamePath = new Path(outputPath + "/facility.avro");
+        Path outputtmp = new Path(outputPath + "/facility.avro");
+        Path fileNamePath = new Path(outputtmp.toUri());
         FSDataOutputStream fsOut = null;
         try {
             if (fs.exists(fileNamePath)) {
@@ -79,7 +79,7 @@ public class Main {
             }
             fs.create(outputtmp);
 
-            fsOut = fs.create(fileNamePath);
+//            fsOut = fs.create(fileNamePath);
             // FSDataOutputStream fin = fs.create(fileNamePath);
             // fin.writeUTF("hello");
             // fin.writeChars("sdsdf");
