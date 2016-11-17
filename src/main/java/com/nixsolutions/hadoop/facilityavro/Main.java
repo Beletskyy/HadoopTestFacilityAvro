@@ -73,8 +73,8 @@ public class Main {
 
         File file = new File(outputPath + "/facility.avro");
 
-        
-        Path fileNamePath = new Path(file.toURI());
+
+        Path fileNamePath = new Path(file.getPath());
         FSDataOutputStream fsOut = null;
         try {
             if (fs.exists(fileNamePath)) {
