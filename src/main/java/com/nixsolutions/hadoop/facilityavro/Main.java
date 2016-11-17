@@ -69,15 +69,16 @@ public class Main {
         config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
 
         FileSystem fs = FileSystem.get(config);
-        Path output = new Path("sdfsdf/sdfsdf");
-        Path filenamePath = new Path("facility.avro");
-        FSDataOutputStream out = null;
+//        Path output = new Path("sdfsdf/sdfsdf");
+        Path filenamePath = new Path(outputPath + "facility.avro");
+        FSDataOutputStream fsOut = null;
         try {
             if (fs.exists(filenamePath)) {
                 fs.delete(filenamePath, true);
             }
-            fs.create(output);
-            out = fs.create(filenamePath);
+//            fs.create(output);
+
+            fsOut = fs.create(filenamePath);
             // FSDataOutputStream fin = fs.create(filenamePath);
             // fin.writeUTF("hello");
             // fin.writeChars("sdsdf");
@@ -101,12 +102,12 @@ public class Main {
 
         new File(outputPath).mkdir();
         // create the job definition, and run it
-        FlowDef flowDef = Main.fileProcessing(source, sink, out);
+        FlowDef flowDef = Main.fileProcessing(source, sink, fsOut);
         Flow wcFlow = flowConnector.connect(flowDef);
         flowDef.setAssertionLevel(AssertionLevel.VALID);
         wcFlow.complete();
         fileWriter.close();
-        out.close();
+        fsOut.close();
     }
 
     public static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink,
