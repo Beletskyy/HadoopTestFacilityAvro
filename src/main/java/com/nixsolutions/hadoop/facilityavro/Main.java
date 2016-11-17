@@ -70,18 +70,7 @@ public class Main {
         config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
 
         FileSystem fs = FileSystem.get(config);
-        Path outputtmp = new Path("outputtmp/outputtmp.txt");
-        fs.create(outputtmp);
-
-        Path outputtmp2 = new Path(outputPath + "outputtmp2/outputtmp2.txt");
-        System.out.println("outputtmp2 - " + outputtmp2.toString());
-        fs.create(outputtmp2);
-
-
-
-
-
-        Path fileNamePath = new Path(outputPath + "/facility.avro");
+        Path fileNamePath = new Path(outputPath + "facility.avro");
         FSDataOutputStream fsOut = null;
         try {
             if (fs.exists(fileNamePath)) {
@@ -115,9 +104,9 @@ public class Main {
     }
 
     public static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink,
-            OutputStream out) throws IOException {
+            OutputStream fsOut) throws IOException {
 
-        fileWriter.create(facility.getSchema(), out);
+        fileWriter.create(facility.getSchema(), fsOut);
         Pipe pipe = new Each("split", new Fields("line"),
                 new FileProcessing(new Fields("line")), Fields.SWAP);
 
