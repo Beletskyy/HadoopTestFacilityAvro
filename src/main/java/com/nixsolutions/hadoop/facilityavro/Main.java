@@ -67,11 +67,13 @@ public class Main {
         Configuration config = new Configuration();
         FileSystem fs = FileSystem.get(config);
         Path filenamePath = new Path(outputPath);
+        FSDataOutputStream out = null;
         try {
             if (fs.exists(filenamePath)) {
                 fs.delete(filenamePath, true);
             }
-            FSDataOutputStream out = fs.create(filenamePath);
+
+            out = fs.create(filenamePath);
             // FSDataOutputStream fin = fs.create(filenamePath);
             // fin.writeUTF("hello");
             // fin.writeChars("sdsdf");
