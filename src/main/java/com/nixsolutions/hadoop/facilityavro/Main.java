@@ -71,16 +71,16 @@ public class Main {
 
         FileSystem fs = FileSystem.get(config);
 //        Path output = new Path("sdfsdf/sdfsdf");
-        Path filenamePath = new Path(outputPath + "/File/facility.avro");
+        Path fileNamePath = new Path(outputPath + "/facility.avro");
         FSDataOutputStream fsOut = null;
         try {
-            if (fs.exists(filenamePath)) {
-                fs.delete(filenamePath, true);
+            if (fs.exists(fileNamePath)) {
+                fs.delete(fileNamePath, true);
             }
 //            fs.create(output);
 
-            fsOut = fs.create(filenamePath);
-            // FSDataOutputStream fin = fs.create(filenamePath);
+            fsOut = fs.create(fileNamePath);
+            // FSDataOutputStream fin = fs.create(fileNamePath);
             // fin.writeUTF("hello");
             // fin.writeChars("sdsdf");
             // fin.close();
@@ -88,7 +88,7 @@ public class Main {
             // TODO: handle exception
         }
 
-        File outputFile = new File(outputPath + "/facilityFile.avro");
+   //     File outputFile = new File(outputPath + "/facilityFile.avro");
         // create the source tap
         Tap<?, ?, ?> source = new Hfs(new TextLine(), inputPath);
 
@@ -97,9 +97,9 @@ public class Main {
         Tap<?, ?, ?> sink = new Hfs(new TextDelimited(true, "\t"), outputPath,
                 SinkMode.REPLACE);
 
-        if (outputFile.exists()) {
-            outputFile.delete();
-        }
+    //    if (outputFile.exists()) {
+   //         outputFile.delete();
+    //    }
 
         new File(outputPath).mkdir();
         // create the job definition, and run it
