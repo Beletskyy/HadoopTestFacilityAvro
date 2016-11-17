@@ -62,20 +62,21 @@ public class Main {
         String inputPath = args[0];
 
         // Output file
-        String outputPath = args[1] + "/facility.avro";
+        String outputPath = args[1];
 
         Configuration config = new Configuration();
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
         config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
 
         FileSystem fs = FileSystem.get(config);
-        Path filenamePath = new Path(outputPath);
+        Path output = new Path("/sdfsdf");
+        Path filenamePath = new Path("facility.avro");
         FSDataOutputStream out = null;
         try {
             if (fs.exists(filenamePath)) {
                 fs.delete(filenamePath, true);
             }
-
+            fs.create(output);
             out = fs.create(filenamePath);
             // FSDataOutputStream fin = fs.create(filenamePath);
             // fin.writeUTF("hello");
