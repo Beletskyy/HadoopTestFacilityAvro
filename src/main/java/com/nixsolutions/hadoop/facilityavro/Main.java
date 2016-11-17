@@ -87,7 +87,7 @@ public class Main {
             // TODO: handle exception
         }
 
-        File outputFile = new File(outputPath + "/facility.avro");
+        File outputFile = new File(outputPath + "/File/facility.avro");
         // create the source tap
         Tap<?, ?, ?> source = new Hfs(new TextLine(), inputPath);
 
