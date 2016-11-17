@@ -89,7 +89,7 @@ public class Main {
         // writes all fields out
         Tap<?, ?, ?> sink = new Hfs(new TextDelimited(true, "\t"), "Tmp",
                 SinkMode.REPLACE);
-        
+
         // create the job definition, and run it
         FlowDef flowDef = Main.fileProcessing(source, sink, fsOut);
         Flow wcFlow = flowConnector.connect(flowDef);
