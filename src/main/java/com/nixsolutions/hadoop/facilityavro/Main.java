@@ -69,7 +69,7 @@ public class Main {
         config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
 
         FileSystem fs = FileSystem.get(config);
-        Path output = new Path("sdfsdf");
+        Path output = new Path("sdfsdf/sdfsdf");
         Path filenamePath = new Path("facility.avro");
         FSDataOutputStream out = null;
         try {
