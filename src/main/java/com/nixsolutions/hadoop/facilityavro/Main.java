@@ -50,6 +50,7 @@ public class Main {
         if (args.length != 2) {
             usage();
         }
+        
         Properties properties = new Properties();
         AppProps.setApplicationJarClass(properties, Main.class);
         AppProps.addApplicationTag(properties, "tutorials");
