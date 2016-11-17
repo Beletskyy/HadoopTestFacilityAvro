@@ -65,6 +65,9 @@ public class Main {
         String outputPath = args[1] + "/facility.avro";
 
         Configuration config = new Configuration();
+        config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
+        config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
+
         FileSystem fs = FileSystem.get(config);
         Path filenamePath = new Path(outputPath);
         FSDataOutputStream out = null;
@@ -81,9 +84,6 @@ public class Main {
         } catch (Exception e) {
             // TODO: handle exception
         }
-
-        config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
-        config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
 
         File outputFile = new File(outputPath + "/facility.avro");
         // create the source tap
