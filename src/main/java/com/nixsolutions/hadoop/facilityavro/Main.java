@@ -55,11 +55,11 @@ public class Main {
         }
         Properties properties = new Properties();
         AppProps.setApplicationJarClass(properties, Main.class);
-        AppProps.addApplicationTag(properties, "tutorials");
+/*        AppProps.addApplicationTag(properties, "tutorials");
         AppProps.addApplicationTag(properties, "cluster:development");
-        AppProps.setApplicationName(properties, "facility");
-        Hadoop2MR1FlowConnector flowConnector = new Hadoop2MR1FlowConnector(
-                properties);
+        AppProps.setApplicationName(properties, "facility");*/
+        Hadoop2MR1FlowConnector flowConnector
+                = new Hadoop2MR1FlowConnector(properties);
         // Input file
         String inputPath = args[0];
         // Output file
@@ -70,24 +70,27 @@ public class Main {
         config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
 
         FileSystem fs = FileSystem.get(config);
-        Path outputtmp = new Path(outputPath + "/facility.avro");
-        Path fileNamePath = new Path(outputtmp.toUri());
+        Path outputtmp = new Path("outputtmp/outputtmp.txt");
+        fs.create(outputtmp);
+
+        Path outputtmp2 = new Path(outputPath + "/outputtmp2/outputtmp2.txt");
+        System.out.println("outputtmp2 - " + outputtmp2.toString());
+        fs.create(outputtmp2);
+
+
+
+
+
+        Path fileNamePath = new Path(outputPath + "/facility.avro");
         FSDataOutputStream fsOut = null;
         try {
             if (fs.exists(fileNamePath)) {
                 fs.delete(fileNamePath, true);
             }
-            fs.create(outputtmp);
-
-//            fsOut = fs.create(fileNamePath);
-            // FSDataOutputStream fin = fs.create(fileNamePath);
-            // fin.writeUTF("hello");
-            // fin.writeChars("sdsdf");
-            // fin.close();
+            fsOut = fs.create(fileNamePath);
         } catch (Exception e) {
             // TODO: handle exception
         }
-
         // create the source tap
         Tap<?, ?, ?> source = new Hfs(new TextLine(), inputPath);
 
@@ -106,10 +109,9 @@ public class Main {
         fsOut.close();
     }
 
-    static void usage() {
-        System.out.println(
-                "Usage : HadoopDFSFileReadWrite <inputfile> <output file>");
-        System.exit(1);
+    static void usage () {
+            System.out.println("Usage : HadoopDFSFileReadWrite <inputfile> <outputfile>");
+            System.exit(1);
     }
 
     public static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink,
