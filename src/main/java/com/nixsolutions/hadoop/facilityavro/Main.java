@@ -71,7 +71,6 @@ public class Main {
 
         FileSystem fs = FileSystem.get(config);
 
-//        Path fileNamePath = new Path("hdfs://sandbox.hortonworks.com:8020/user/root/output/facility.avro");
         Path fileNamePath = new Path("" + outputPath + "/facility.avro");
 
         FSDataOutputStream fsOut = null;
@@ -90,8 +89,7 @@ public class Main {
         // writes all fields out
         Tap<?, ?, ?> sink = new Hfs(new TextDelimited(true, "\t"), "Tmp",
                 SinkMode.REPLACE);
-
-//        new File(outputPath).mkdir();
+        
         // create the job definition, and run it
         FlowDef flowDef = Main.fileProcessing(source, sink, fsOut);
         Flow wcFlow = flowConnector.connect(flowDef);
