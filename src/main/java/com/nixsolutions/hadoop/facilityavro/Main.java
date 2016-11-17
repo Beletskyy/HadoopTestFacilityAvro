@@ -71,7 +71,7 @@ public class Main {
 
         FileSystem fs = FileSystem.get(config);
 
-        Path fileNamePath = new Path("hdfs://sandbox.hortonworks.com:8020/user/root/output");
+        Path fileNamePath = new Path("hdfs://sandbox.hortonworks.com:8020/user/root/output/facility.avro");
 
         FSDataOutputStream fsOut = null;
         try {
