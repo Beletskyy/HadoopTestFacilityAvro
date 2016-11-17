@@ -1,6 +1,5 @@
 package com.nixsolutions.hadoop.facilityavro;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
@@ -40,13 +39,11 @@ import cascading.tuple.TupleEntry;
  *
  */
 public class Main {
-    // private static final File outputFile = new File(
-    // outputPath + "facility.avro");
 
-    static Facility facility = new Facility();
-    static DatumWriter<Facility> datumWriter = new SpecificDatumWriter<Facility>(
+    private static Facility facility = new Facility();
+    private static DatumWriter<Facility> datumWriter = new SpecificDatumWriter<Facility>(
             Facility.class);
-    static DataFileWriter<Facility> fileWriter = new DataFileWriter<Facility>(
+    private static DataFileWriter<Facility> fileWriter = new DataFileWriter<Facility>(
             datumWriter);
 
     public static void main(String[] args) throws IOException {
@@ -55,9 +52,9 @@ public class Main {
         }
         Properties properties = new Properties();
         AppProps.setApplicationJarClass(properties, Main.class);
-/*        AppProps.addApplicationTag(properties, "tutorials");
+        AppProps.addApplicationTag(properties, "tutorials");
         AppProps.addApplicationTag(properties, "cluster:development");
-        AppProps.setApplicationName(properties, "facility");*/
+        AppProps.setApplicationName(properties, "facility");
         Hadoop2MR1FlowConnector flowConnector
                 = new Hadoop2MR1FlowConnector(properties);
         // Input file
@@ -105,7 +102,7 @@ public class Main {
             System.exit(1);
     }
 
-    public static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink,
+   public static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink,
             OutputStream fsOut) throws IOException {
 
         fileWriter.create(facility.getSchema(), fsOut);
