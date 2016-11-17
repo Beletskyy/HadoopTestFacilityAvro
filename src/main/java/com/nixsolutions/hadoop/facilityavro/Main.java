@@ -88,7 +88,6 @@ public class Main {
             // TODO: handle exception
         }
 
-
         // create the source tap
         Tap<?, ?, ?> source = new Hfs(new TextLine(), inputPath);
 
@@ -107,9 +106,10 @@ public class Main {
         fsOut.close();
     }
 
-    static void usage () {
-            System.out.println("Usage : HadoopDFSFileReadWrite <inputfile> <output file>");
-            System.exit(1);
+    static void usage() {
+        System.out.println(
+                "Usage : HadoopDFSFileReadWrite <inputfile> <output file>");
+        System.exit(1);
     }
 
     public static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink,
