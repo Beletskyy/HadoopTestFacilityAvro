@@ -62,11 +62,11 @@ public class Main {
         String inputPath = args[0];
 
         // Output file
-        String outputPath = args[1];
+        String outputPath = args[1] + "/facility.avro";
 
         Configuration config = new Configuration();
         FileSystem fs = FileSystem.get(config);
-        Path filenamePath = new Path(outputPath + "/facility.avro");
+        Path filenamePath = new Path(outputPath);
         try {
             if (fs.exists(filenamePath)) {
                 fs.delete(filenamePath, true);
@@ -104,6 +104,7 @@ public class Main {
         flowDef.setAssertionLevel(AssertionLevel.VALID);
         wcFlow.complete();
         fileWriter.close();
+        out.close();
     }
 
     public static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink,
