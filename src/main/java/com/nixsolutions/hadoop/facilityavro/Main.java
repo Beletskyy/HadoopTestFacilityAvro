@@ -7,6 +7,7 @@ import java.util.Properties;
 import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.io.DatumWriter;
 import org.apache.avro.specific.SpecificDatumWriter;
+import org.apache.commons.httpclient.URI;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
@@ -36,7 +37,6 @@ import cascading.tuple.TupleEntry;
 
 /**
  * Java action for working with some log file in order to process it and store.
- *
  */
 public class Main {
 
@@ -50,7 +50,6 @@ public class Main {
         if (args.length != 2) {
             usage();
         }
-        
         Properties properties = new Properties();
         AppProps.setApplicationJarClass(properties, Main.class);
         AppProps.addApplicationTag(properties, "tutorials");
@@ -65,7 +64,8 @@ public class Main {
 
         Configuration config = new Configuration();
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
-        config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
+        config.set("fs.default.name", "hdfs://sandbox.hortonworks.com:8020");
+//        config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
 
         FileSystem fs = FileSystem.get(config);
 
@@ -77,8 +77,12 @@ public class Main {
                 fs.delete(fileNamePath, true);
             }
             fsOut = fs.create(fileNamePath);
+
         } catch (Exception e) {
-            // TODO: handle exception
+            String originalFS = config.get("fs.default.name");
+            throw new RuntimeException("fileNamePath- " + fileNamePath
+                    + ". originalFS - " + originalFS
+                    + " e - !!!!!! " + e);
         }
         // create the source tap
         Tap<?, ?, ?> source = new Hfs(new TextLine(), inputPath);
@@ -94,7 +98,7 @@ public class Main {
         flowDef.setAssertionLevel(AssertionLevel.VALID);
         wcFlow.complete();
         fileWriter.close();
-        fsOut.flush();
+       // fsOut.flush();
         fsOut.close();
     }
 
