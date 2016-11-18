@@ -1,20 +1,5 @@
 package com.nixsolutions.hadoop.facilityavro;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Properties;
-
-import org.apache.avro.file.DataFileWriter;
-import org.apache.avro.io.DatumWriter;
-import org.apache.avro.specific.SpecificDatumWriter;
-import org.apache.commons.httpclient.URI;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.FSDataOutputStream;
-import org.apache.hadoop.fs.FileSystem;
-import org.apache.hadoop.fs.Path;
-
-import com.nixsolutions.hadoop.model.Facility;
-
 import cascading.flow.Flow;
 import cascading.flow.FlowDef;
 import cascading.flow.FlowProcess;
@@ -34,25 +19,38 @@ import cascading.tap.hadoop.Hfs;
 import cascading.tuple.Fields;
 import cascading.tuple.Tuple;
 import cascading.tuple.TupleEntry;
+import com.nixsolutions.hadoop.model.Facility;
+import org.apache.avro.file.DataFileWriter;
+import org.apache.avro.io.DatumWriter;
+import org.apache.avro.specific.SpecificDatumWriter;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataOutputStream;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Properties;
 
 /**
  * Java action for working with some log file in order to process it and store.
  */
 public class Main {
-
     private static Facility facility = new Facility();
-    private static DatumWriter<Facility> datumWriter = new SpecificDatumWriter<Facility>(
-            Facility.class);
-    private static DataFileWriter<Facility> fileWriter = new DataFileWriter<Facility>(
-            datumWriter);
+    private static DatumWriter<Facility> datumWriter
+            = new SpecificDatumWriter<>(Facility.class);
+    private static DataFileWriter<Facility> fileWriter
+            = new DataFileWriter<>(datumWriter);
+    private static Properties properties = new Properties();
 
     public static void main(String[] args) throws IOException {
         if (args.length != 2) {
-            usage();
+            System.out.println("Usage : HadoopDFSFileReadWrite <inputfile> <outputfile>");
+            System.exit(1);
         }
-        Properties properties = new Properties();
+
         AppProps.setApplicationJarClass(properties, Main.class);
-        AppProps.addApplicationTag(properties, "tutorials");
+        AppProps.addApplicationTag(properties, "avroTestApplication");
         AppProps.addApplicationTag(properties, "cluster:development");
         AppProps.setApplicationName(properties, "facility");
         Hadoop2MR1FlowConnector flowConnector
@@ -65,7 +63,6 @@ public class Main {
         Configuration config = new Configuration();
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
         config.set("fs.default.name", "hdfs://sandbox.hortonworks.com:8020");
-//        config.addResource(new Path("/HADOOP_HOME/conf/hdfs-site.xml"));
 
         FileSystem fs = FileSystem.get(config);
 
@@ -77,12 +74,8 @@ public class Main {
                 fs.delete(fileNamePath, true);
             }
             fsOut = fs.create(fileNamePath);
-
         } catch (Exception e) {
-            String originalFS = config.get("fs.default.name");
-            throw new RuntimeException("fileNamePath- " + fileNamePath
-                    + ". originalFS - " + originalFS
-                    + " e - !!!!!! " + e);
+            throw new RuntimeException(e);
         }
         // create the source tap
         Tap<?, ?, ?> source = new Hfs(new TextLine(), inputPath);
@@ -98,39 +91,30 @@ public class Main {
         flowDef.setAssertionLevel(AssertionLevel.VALID);
         wcFlow.complete();
         fileWriter.close();
-       // fsOut.flush();
         fsOut.close();
     }
 
-    static void usage () {
-            System.out.println("Usage : HadoopDFSFileReadWrite <inputfile> <outputfile>");
-            System.exit(1);
-    }
-
-   public static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink,
-            OutputStream fsOut) throws IOException {
-
+    private static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink,
+                  OutputStream fsOut) throws IOException {
         fileWriter.create(facility.getSchema(), fsOut);
         Pipe pipe = new Each("split", new Fields("line"),
                 new FileProcessing(new Fields("line")), Fields.SWAP);
-
-        return FlowDef.flowDef()//
-                .addSource(pipe, source) //
-                .addTail(pipe)//
+        return FlowDef.flowDef()
+                .addSource(pipe, source)
+                .addTail(pipe)
                 .addSink(pipe, sink);
     }
 
-    public static class FileProcessing extends BaseOperation
+    private static class FileProcessing extends BaseOperation
             implements Function {
 
-        public FileProcessing(Fields fieldDeclaration) throws IOException {
+        private FileProcessing(Fields fieldDeclaration) throws IOException {
             super(1, fieldDeclaration);
-
         }
 
         @Override
         public void operate(FlowProcess flowProcess,
-                FunctionCall functionCall) {
+                            FunctionCall functionCall) {
             TupleEntry argument = functionCall.getArguments();
             String line = lineProcessing(argument.getString(0));
 
@@ -141,7 +125,7 @@ public class Main {
             }
         }
 
-        public String lineProcessing(String text) {
+        private String lineProcessing(String text) {
             try {
                 if (!text.contains("TruvenFacilityName")) {
                     String[] splitString = text.split("\\|");
@@ -155,7 +139,7 @@ public class Main {
                     }
                 }
             } catch (Exception e) {
-
+                throw new RuntimeException(e);
             }
             return text;
         }
