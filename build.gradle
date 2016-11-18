@@ -50,6 +50,7 @@ dependencies {
   compile( group: 'cascading', name: 'cascading-core', version: cascadingVersion )
   compile( group: 'cascading', name: 'cascading-local', version: cascadingVersion )
   compile( group: 'cascading', name: 'cascading-hadoop2-mr1', version: cascadingVersion )
+  compile( group: 'cascading', name: 'cascading-hadoop', version: cascadingVersion )
 
   provided( group: 'org.apache.hadoop', name: 'hadoop-common', version: hadoopVersion )
   provided( group: 'org.apache.hadoop', name: 'hadoop-client', version: hadoopVersion )
@@ -60,7 +61,7 @@ jar {
   description = "Assembles a Hadoop ready jar file"
   doFirst {
     into( 'lib' ) {
-      from { configurations.compile.minus( [configurations.provided] ) }
+      /*from { configurations.compile.minus( [configurations.provided] ) }*/
     }
   }
 
