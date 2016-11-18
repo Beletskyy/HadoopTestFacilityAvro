@@ -82,7 +82,8 @@ public class Main {
 
         // Create a sink tap to write to the Hfs; by default, TextDelimited
         // writes all fields out
-        Tap<?, ?, ?> sink = new Hfs(new TextDelimited(true, "\t"), "Tmp",
+        Tap<?, ?, ?> sink = new Hfs(new TextDelimited(true, "\t"),
+                "Tmp",
                 SinkMode.REPLACE);
 
         // create the job definition, and run it

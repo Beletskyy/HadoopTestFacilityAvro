@@ -1,19 +1,19 @@
 <coordinator-app name="HadoopTestFacilityAvro"
-                 frequency="${coord:minutes(5)}"
-                 start="2016-11-18T00:00Z" end="2020-01-04T08:00Z" timezone="UTC"
+                 frequency="${coord:days(1)}"
+                 start="2016-11-18T04:00Z" end="2020-01-04T08:00Z" timezone="UTC"
                  xmlns="uri:oozie:coordinator:0.2">
 
     <datasets>
-        <dataset name="inputdataset" frequency="${coord:minutes(5)}"
-                 initial-instance="2016-11-18T00:00Z" timezone="UTC">
+        <dataset name="inputdataset" frequency="${coord:days(1)}"
+                 initial-instance="2016-11-18T04:00Z" timezone="UTC">
             <uri-template>
                 ${nameNode}/dataforge/raw/data-assets/${customerID}/${ce_supplierId}/FacilityMapping/${YEAR}${MONTH}${DAY}000000
             </uri-template>
             <done-flag></done-flag>
         </dataset>
 
-        <dataset name="outputdataset" frequency="${coord:minutes(5)}"
-                 initial-instance="2016-11-18T00:00Z" timezone="UTC">
+        <dataset name="outputdataset" frequency="${coord:days(1)}"
+                 initial-instance="2016-11-18T04:00Z" timezone="UTC">
             <uri-template>
                 ${nameNode}/dataforge/standardized/data-assets/${customerID}/${ce_supplierId}/FacilityMapping/${YEAR}${MONTH}${DAY}000000
             </uri-template>
