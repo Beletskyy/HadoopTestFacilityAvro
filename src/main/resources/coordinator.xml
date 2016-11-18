@@ -6,13 +6,13 @@
     <datasets>
         <dataset name="inputdataset" frequency="${coord:minutes(5)}"
                  initial-instance="2016-11-15T00:00Z" timezone="GMT">
-            <uri-template>${nameNode}/dataforge/raw/data-assets</uri-template>
+            <uri-template>${nameNode}/dataforge/raw/data-assets/${customerID}</uri-template>
             <done-flag></done-flag>
         </dataset>
 
         <dataset name="outputdataset" frequency="${coord:minutes(5)}"
                  initial-instance="2016-11-15T00:00Z" timezone="GMT">
-            <uri-template>${nameNode}/dataforge/standardized/data-assets</uri-template>
+            <uri-template>${nameNode}/dataforge/standardized/data-assets/${customerID}</uri-template>
             <done-flag></done-flag>
         </dataset>
     </datasets>
