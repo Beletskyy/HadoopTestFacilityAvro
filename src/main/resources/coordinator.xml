@@ -7,7 +7,7 @@
         <dataset name="inputdataset" frequency="${coord:days(1)}"
                  initial-instance="2016-11-18T04:00Z" timezone="UTC">
             <uri-template>
-                ${nameNode}/dataforge/raw/data-assets/${customerID}/${ce_supplierId}/FacilityMapping/${YEAR}${MONTH}${DAY}000000
+                    ${nameNode}/dataforge/raw/data-assets/${customerID}/${ce_supplierId}/FacilityMapping/${YEAR}${MONTH}${DAY}000000
             </uri-template>
             <done-flag></done-flag>
         </dataset>
