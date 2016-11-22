@@ -15,19 +15,25 @@ buildscript {
   }
 }
 
-apply plugin: 'java'
+apply plugin: 'java'//собрать jar архив, compileJava — скомпилировать исходные коды и др.
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'provided-base'
 apply plugin: 'avro-gradle-plugin'
+//apply plugin: 'application'
+// tasks: run — запуск приложения;
+// installApp — установка приложения на компьютер,
+// эта задача создает исполняемые файлы для *nix и для windows (bat файл);
+// distZip — собирает приложение в zip архив, помещая туда все jar файлы
 
 archivesBaseName = 'facility'
 
 ext.cascadingVersion = '3.0.0'
 ext.hadoopVersion = '2.7.3'
+//ext.hadoopVersion = '2.6.0'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 dependencies {
   compileAvro
@@ -41,6 +47,9 @@ compileAvro {
 }
 
 repositories {
+//в качестве url могут использоваться ‘http’, ‘https’ или
+// ‘file’ протоколы. Порядок, в котором записаны репозитории,
+// влияет на порядок поиска зависимости в репозиториях.
   mavenLocal()
   mavenCentral()
   maven { url 'http://conjars.org/repo/' }
@@ -59,11 +68,11 @@ dependencies {
 
 jar {
   description = "Assembles a Hadoop ready jar file"
-  doFirst {
+/*  doFirst {
     into( 'lib' ) {
-      /*from { configurations.compile.minus( [configurations.provided] ) }*/
+      from { configurations.compile.minus( [configurations.provided] ) }
     }
-  }
+  }*/
 
   manifest {
     attributes( "Main-Class": "com/nixsolutions/hadoop/facilityavro/Main" )
