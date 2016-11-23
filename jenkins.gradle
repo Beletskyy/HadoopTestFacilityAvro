@@ -6,6 +6,6 @@ job('toJar') {
         scm('* * * * *')
     }
     steps {
-        gradle('clean testClasses')
+        gradle('jar')
     }
 }
