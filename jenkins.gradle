@@ -1,7 +1,7 @@
 job('build') {
-//    scm {
-//        git('git://github.com/Beletskyy/HadoopTestFacilityAvro.git')
-//    }
+    scm {
+        git('git://github.com/Beletskyy/HadoopTestFacilityAvro')
+    }
     triggers {
         scm('* * * * *')
     }
