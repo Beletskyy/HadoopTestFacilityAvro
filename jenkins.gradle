@@ -3,7 +3,7 @@ job('toJar') {
         git('git://github.com/Beletskyy/HadoopTestFacilityAvro.git')
     }
     triggers {
-        scm('H/2 * * * *')
+        scm('H/1 * * * *')
     }
     steps {
         gradle('jar')
