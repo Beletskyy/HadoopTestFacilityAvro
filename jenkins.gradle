@@ -6,6 +6,6 @@ job('build') {
         scm('* * * * *')
     }
     steps {
-        gradle('build')
+        gradle('clean build')
     }
 }
