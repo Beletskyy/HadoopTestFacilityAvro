@@ -5,6 +5,7 @@ job('build') {
     triggers {
         scm('* * * * *')
     }
+    
     steps {
         gradle('clean build')
     }
