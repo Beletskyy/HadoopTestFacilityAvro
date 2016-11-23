@@ -21,8 +21,8 @@ apply plugin: 'eclipse'
 apply plugin: 'provided-base'
 apply plugin: 'avro-gradle-plugin'
 apply plugin: 'checkstyle'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
+//apply plugin: 'findbugs'
+//apply plugin: 'pmd'
 //apply plugin: 'application'
 // tasks: run — запуск приложения;
 // installApp — установка приложения на компьютер,
@@ -46,6 +46,26 @@ compileAvro {
   // Uncomment the following line to explicitly set the Java type
   // to be emitted for string schemas (here: java.lang.String).
   stringType = 'String'
+}
+
+task checkstyle(type: Checkstyle) {
+  // Cleaning the old log because of the creation of the new ones (not sure if totaly needed)
+  delete fileTree(dir: "${project.rootDir}/app/build/reports")
+  source 'src'
+  include '**/*.java'
+//  exclude '**/gen/**'
+  // empty classpath
+  classpath = files()
+  //Failing the build
+  ignoreFailures = false
+}
+
+checkstyle {
+  toolVersion = '6.18'
+}
+
+project.afterEvaluate {
+  preBuild.dependsOn 'checkstyle'
 }
 
 repositories {
