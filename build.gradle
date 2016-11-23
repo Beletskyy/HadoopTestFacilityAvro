@@ -48,21 +48,21 @@ compileAvro {
   stringType = 'String'
 }
 
-task checkstyle(type: Checkstyle) {
-  // Cleaning the old log because of the creation of the new ones (not sure if totaly needed)
-  delete fileTree(dir: "${project.rootDir}/app/build/reports")
-  source 'src'
-  include '**/*.java'
-//  exclude '**/gen/**'
-  // empty classpath
-  classpath = files()
-  //Failing the build
-  ignoreFailures = false
-}
-
-checkstyle {
-  toolVersion = '6.18'
-}
+//task checkstyle(type: Checkstyle) {
+//  // Cleaning the old log because of the creation of the new ones (not sure if totaly needed)
+//  delete fileTree(dir: "${project.rootDir}/app/build/reports")
+//  source 'src'
+//  include '***/*//*.java'
+////  exclude '**//*gen*//**'
+//  // empty classpath
+//  classpath = files()
+//  //Failing the build
+//  ignoreFailures = false
+//}
+//
+//checkstyle {
+//  toolVersion = '6.18'
+//}
 
 
 repositories {
