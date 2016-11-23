@@ -1,10 +1,10 @@
 job('build') {
-    scm {
-        git('git://github.com/Beletskyy/HadoopTestFacilityAvro.git')
-    }
-    triggers {
-        scm('* * * * *')
-    }
+//    scm {
+//        git('git://github.com/Beletskyy/HadoopTestFacilityAvro.git')
+//    }
+//    triggers {
+//        scm('* * * * *')
+//    }
     steps {
         gradle('clean build')
     }
