@@ -6,6 +6,6 @@ job('toJar') {
         scm('H/2 * * * *')
     }
     steps {
-        gradle('jar')
+        gradle('build jar')
     }
 }
