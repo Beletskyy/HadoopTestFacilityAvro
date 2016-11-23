@@ -64,9 +64,6 @@ checkstyle {
   toolVersion = '6.18'
 }
 
-project.afterEvaluate {
-  preBuild.dependsOn 'checkstyle'
-}
 
 repositories {
 //в качестве url могут использоваться ‘http’, ‘https’ или
