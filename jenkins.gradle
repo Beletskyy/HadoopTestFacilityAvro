@@ -6,6 +6,6 @@ job('toJar') {
         scm('H/1 * * * *')
     }
     steps {
-        gradle('clean jar')
+        gradle('clean')
     }
 }
