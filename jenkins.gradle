@@ -1,9 +1,11 @@
-
-kjasdhkj
-da actions
-last text
-
-
-jar text
-
-push to gitHub
+job('toJar') {
+    scm {
+        git('git://github.com/Beletskyy/HadoopTestFacilityAvro.git')
+    }
+    triggers {
+        scm('H/2 * * * *')
+    }
+    steps {
+        gradle('jar')
+    }
+}
