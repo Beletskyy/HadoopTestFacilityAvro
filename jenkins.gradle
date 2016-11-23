@@ -1,4 +1,4 @@
-job('toJar') {
+job('build') {
     scm {
         git('git://github.com/Beletskyy/HadoopTestFacilityAvro.git')
     }
