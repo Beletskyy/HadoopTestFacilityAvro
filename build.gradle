@@ -4,7 +4,7 @@ buildscript {
     maven { 
     url 'http://repo.spring.io/plugins-release' 
     mavenCentral()
-    maven { url "http://clojars.org/repo" } // Required to automatically download this plugin
+    maven { url "http://clojars.org/repo" }
     }
   }
   dependencies {
@@ -15,7 +15,7 @@ buildscript {
   }
 }
 
-apply plugin: 'java'//собрать jar архив, compileJava — скомпилировать исходные коды и др.
+apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'provided-base'
@@ -24,17 +24,10 @@ apply plugin: 'checkstyle'
 apply plugin: 'findbugs'
 apply plugin: 'pmd'
 
-//apply plugin: 'application'
-// tasks: run — запуск приложения;
-// installApp — установка приложения на компьютер,
-// эта задача создает исполняемые файлы для *nix и для windows (bat файл);
-// distZip — собирает приложение в zip архив, помещая туда все jar файлы
-
 archivesBaseName = 'facility'
 
 ext.cascadingVersion = '3.0.0'
 ext.hadoopVersion = '2.7.3'
-
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 checkstyle {
@@ -56,9 +49,6 @@ compileAvro {
 }
 
 repositories {
-//в качестве url могут использоваться ‘http’, ‘https’ или
-// ‘file’ протоколы. Порядок, в котором записаны репозитории,
-// влияет на порядок поиска зависимости в репозиториях.
   mavenLocal()
   mavenCentral()
   maven { url 'http://conjars.org/repo/' }
@@ -86,22 +76,20 @@ jar {
   tasks.withType(Checkstyle) {
     reports {
       source 'src'
+      html.enabled false
       xml.enabled true
       xml.destination rootProject.file("build/reports/checkstyle/checkstyle-result.xml")
-      html.enabled false
-      html.destination rootProject.file("build/reports/checkstyle/checkstyle-result.html")
       ignoreFailures = true
     }
   }
 
   tasks.withType(FindBugs) {
     reports {
+      html.enabled false
       xml.enabled true
       xml.destination rootProject.file("build/reports/findbugs/findbugs.xml")
-      html.enabled false
-      html.destination rootProject.file("build/reports/findbugs/findbugs.html")
-//      effort = "max"
-//      reportLevel = "high"
+      effort = "max"
+      reportLevel = "high"
       ignoreFailures = true
     }
   }
@@ -110,10 +98,9 @@ jar {
   tasks.withType(Pmd) {
     reports {
       ignoreFailures = true
+      html.enabled false
       xml.enabled true
       xml.destination rootProject.file("build/reports/pmd/pmd.xml")
-      html.enabled false
-      html.destination rootProject.file("build/reports/pmd/pmd.html")
       ruleSets = [
               'java-basic',
               'java-braces',
