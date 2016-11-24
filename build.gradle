@@ -65,14 +65,6 @@ dependencies {
   provided( group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-core', version: hadoopVersion )
 }
 
-sourceSets {
-  main {
-    java {
-      srcDir file('src/main/java')
-    }
-  }
-}
-
 jar {
   description = "Assembles a Hadoop ready jar file"
 /*  doFirst {
@@ -96,13 +88,11 @@ jar {
       html.enabled false
       xml.enabled true
       xml.destination rootProject.file("build/reports/findbugs/findbugs.xml")
-      sourceSets = [sourceSets.main]
       effort = "max"
       reportLevel = "high"
       ignoreFailures = true
     }
   }
-
 
   tasks.withType(Pmd) {
     reports {
