@@ -146,4 +146,5 @@ jar {
   manifest {
     attributes( "Main-Class": "com/nixsolutions/hadoop/facilityavro/Main" )
   }
+  
 }
