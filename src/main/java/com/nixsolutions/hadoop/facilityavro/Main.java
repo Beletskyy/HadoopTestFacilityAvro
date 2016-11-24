@@ -45,7 +45,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         if (args.length != 2) {
-            System.out.println("Usage : HadoopDFSFileReadWrite <inputfile> <outputfile>");
+            System.out.println("Usage : "
+                    + "HadoopDFSFileReadWrite <inputfile><outputfile>");
             System.exit(1);
         }
 
@@ -95,8 +96,10 @@ public class Main {
         fsOut.close();
     }
 
-    private static FlowDef fileProcessing(Tap<?, ?, ?> source, Tap<?, ?, ?> sink,
-                  OutputStream fsOut) throws IOException {
+    private static FlowDef fileProcessing(final Tap<?, ?, ?> source,
+                                          final Tap<?, ?, ?> sink,
+                                          final OutputStream fsOut)
+            throws IOException {
         fileWriter.create(facility.getSchema(), fsOut);
         Pipe pipe = new Each("split", new Fields("line"),
                 new FileProcessing(new Fields("line")), Fields.SWAP);
@@ -109,13 +112,13 @@ public class Main {
     private static class FileProcessing extends BaseOperation
             implements Function {
 
-        private FileProcessing(Fields fieldDeclaration) throws IOException {
+        private FileProcessing(final Fields fieldDeclaration) throws IOException {
             super(1, fieldDeclaration);
         }
 
         @Override
-        public void operate(FlowProcess flowProcess,
-                            FunctionCall functionCall) {
+        public void operate(final FlowProcess flowProcess,
+                            final FunctionCall functionCall) {
             TupleEntry argument = functionCall.getArguments();
             String line = lineProcessing(argument.getString(0));
 
@@ -126,7 +129,7 @@ public class Main {
             }
         }
 
-        private String lineProcessing(String text) {
+        private String lineProcessing(final String text) {
             try {
                 if (!text.contains("TruvenFacilityName")) {
                     String[] splitString = text.split("\\|");
