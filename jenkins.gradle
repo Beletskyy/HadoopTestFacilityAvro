@@ -10,7 +10,7 @@ job('build') {
         gradle('build')
     }
     publishers {
-            checkstyle('**/checkstyle-result.xml') {
+//            checkstyle('build/reports/checkstyle/checkstyle-result.xml') {
 //                healthLimits(3, 20)
 //                thresholdLimit('high')
 //                defaultEncoding('UTF-8')
@@ -25,8 +25,8 @@ job('build') {
 //                        unstableNew: [all: 9, high: 10, normal: 11, low: 12],
 //                        failedNew: [all: 13, high: 14, normal: 15, low: 16]
 //                )
-            }
-        findbugs('**/findbugsXml.xml', false) {
+//            }
+        findbugs('build/reports/findbugs/findbugs.xml', false) {
                 healthLimits(3, 20)
                 thresholdLimit('high')
                 defaultEncoding('UTF-8')
@@ -42,7 +42,7 @@ job('build') {
                         failedNew: [all: 13, high: 14, normal: 15, low: 16]
                 )
             }
-        pmd('**/*.pmd') {
+        pmd('build/reports/pmd/pmd.xml') {
             healthLimits(3, 20)
             thresholdLimit('high')
             defaultEncoding('UTF-8')
