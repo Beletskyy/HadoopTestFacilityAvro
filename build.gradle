@@ -21,7 +21,7 @@ apply plugin: 'eclipse'
 apply plugin: 'provided-base'
 apply plugin: 'avro-gradle-plugin'
 apply plugin: 'checkstyle'
-//apply plugin: 'findbugs'
+apply plugin: 'findbugs'
 //apply plugin: 'pmd'
 
 //apply plugin: 'application'
@@ -40,6 +40,7 @@ targetCompatibility = 1.7
 checkstyle {
   toolVersion = '6.18'
 }
+findbugs.toolVersion = '3.0.1'
 
 
 dependencies {
@@ -84,14 +85,27 @@ jar {
 
   tasks.withType(Checkstyle) {
     reports {
-      xml.enabled true
-      html.enabled false
       source 'src'
-//      html.destination rootProject.file("build/reports/checkstyle-result.html")
+      xml.enabled true
       xml.destination rootProject.file("build/reports/checkstyle/checkstyle-result.xml")
+      html.enabled false
+      html.destination rootProject.file("build/reports/checkstyle/checkstyle-result.html")
       ignoreFailures = true
     }
   }
+
+  tasks.withType(FindBugs) {
+    reports {
+      xml.enabled true
+      xml.destination rootProject.file("build/reports/findbugs/findbugs.xml")
+      html.enabled false
+      html.destination rootProject.file("build/reports/findbugs/findbugs.html")
+      effort = "max"
+      reportLevel = "high"
+      ignoreFailures = true
+    }
+  }
+
   manifest {
     attributes( "Main-Class": "com/nixsolutions/hadoop/facilityavro/Main" )
   }
