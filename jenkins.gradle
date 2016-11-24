@@ -66,8 +66,6 @@ job('build') {
         }
     }
     steps {
-
-        gradle('clean checkstyleMain pmdMain findbugsMain build')
-
+        gradle('clean build')
     }
 }
