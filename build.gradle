@@ -23,6 +23,7 @@ apply plugin: 'avro-gradle-plugin'
 apply plugin: 'checkstyle'
 //apply plugin: 'findbugs'
 //apply plugin: 'pmd'
+
 //apply plugin: 'application'
 // tasks: run — запуск приложения;
 // installApp — установка приложения на компьютер,
@@ -36,10 +37,15 @@ ext.hadoopVersion = '2.7.3'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
+checkstyle {
+  toolVersion = '6.18'
+}
+
 
 dependencies {
   compileAvro
 }
+
 compileAvro {
   source = 'src/main/avro'
   destinationDir = file("src/main/java")
@@ -47,23 +53,6 @@ compileAvro {
   // to be emitted for string schemas (here: java.lang.String).
   stringType = 'String'
 }
-
-//task checkstyle(type: Checkstyle) {
-//  // Cleaning the old log because of the creation of the new ones (not sure if totaly needed)
-//  delete fileTree(dir: "${project.rootDir}/app/build/reports")
-//  source 'src'
-//  include '***/*//*.java'
-////  exclude '**//*gen*//**'
-//  // empty classpath
-//  classpath = files()
-//  //Failing the build
-//  ignoreFailures = false
-//}
-//
-//checkstyle {
-//  toolVersion = '6.18'
-//}
-
 
 repositories {
 //в качестве url могут использоваться ‘http’, ‘https’ или
@@ -92,6 +81,17 @@ jar {
       from { configurations.compile.minus( [configurations.provided] ) }
     }
   }*/
+
+  tasks.withType(Checkstyle) {
+    reports {
+      xml.enabled false
+      html.enabled true
+      source 'src'
+      html.destination rootProject.file("build/reports/checkstyle-result.html")
+      xml.destination rootProject.file("build/reports/checkstyle-result.xml")
+      ignoreFailures = true
+    }
+  }
 
   manifest {
     attributes( "Main-Class": "com/nixsolutions/hadoop/facilityavro/Main" )
