@@ -11,7 +11,7 @@ job('build') {
     }
     publishers {
             checkstyle('build/reports/checkstyle/checkstyle-result.xml') {
-//                healthLimits(3, 20)
+                healthLimits(3, 20)
 //                thresholdLimit('high')
                 defaultEncoding('UTF-8')
                 canRunOnFailed(true)
@@ -27,7 +27,7 @@ job('build') {
 //                )
             }
         findbugs('build/reports/findbugs/findbugs.xml', false) {
-//                healthLimits(3, 20)
+                healthLimits(3, 20)
 //                thresholdLimit('high')
                 defaultEncoding('UTF-8')
                 canRunOnFailed(true)
@@ -43,7 +43,7 @@ job('build') {
 //                )
             }
         pmd('build/reports/pmd/pmd.xml') {
-//            healthLimits(3, 20)
+            healthLimits(3, 20)
 //            thresholdLimit('high')
             defaultEncoding('UTF-8')
             canRunOnFailed(true)
