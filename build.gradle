@@ -87,8 +87,8 @@ jar {
       xml.enabled false
       html.enabled true
       source 'src'
-      html.destination rootProject.file("build/reports/checkstyle-result.html")
-      xml.destination rootProject.file("build/reports/checkstyle-result.xml")
+//      html.destination rootProject.file("build/reports/checkstyle-result.html")
+      xml.destination rootProject.file("checkstyle-result.xml")
       ignoreFailures = true
     }
   }
