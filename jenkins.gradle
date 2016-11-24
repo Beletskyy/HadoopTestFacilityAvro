@@ -2,11 +2,18 @@ job('build') {
     scm {
         git('git://github.com/Beletskyy/HadoopTestFacilityAvro')
     }
-    
+
     triggers {
         scm('* * * * *')
     }
     steps {
         gradle('build')
+    }
+    publishers {
+        checkstyle {
+            pattern '**/checkstyle-result.xml'
+            healthy "0"
+            unhealthy "100"
+        }
     }
 }
