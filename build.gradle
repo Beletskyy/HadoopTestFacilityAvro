@@ -65,6 +65,14 @@ dependencies {
   provided( group: 'org.apache.hadoop', name: 'hadoop-mapreduce-client-core', version: hadoopVersion )
 }
 
+sourceSets {
+  main {
+    java {
+      srcDir file('src/main/java')
+    }
+  }
+}
+
 jar {
   description = "Assembles a Hadoop ready jar file"
 /*  doFirst {
