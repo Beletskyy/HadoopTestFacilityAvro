@@ -100,8 +100,8 @@ jar {
       xml.destination rootProject.file("build/reports/findbugs/findbugs.xml")
       html.enabled false
       html.destination rootProject.file("build/reports/findbugs/findbugs.html")
-      effort = "max"
-      reportLevel = "high"
+//      effort = "max"
+//      reportLevel = "high"
       ignoreFailures = true
     }
   }
