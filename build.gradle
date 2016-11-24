@@ -92,8 +92,6 @@ jar {
       ignoreFailures = true
     }
   }
-  
-
   manifest {
     attributes( "Main-Class": "com/nixsolutions/hadoop/facilityavro/Main" )
   }
