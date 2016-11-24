@@ -16,9 +16,9 @@ job('build') {
 //                defaultEncoding('UTF-8')
 //                canRunOnFailed(true)
 //                useStableBuildAsReference(true)
-                useDeltaValues(true)
-                computeNew(true)
-                shouldDetectModules(true)
+//                useDeltaValues(true)
+//                computeNew(true)
+//                shouldDetectModules(true)
                 thresholds(
                         unstableTotal: [all: 1, high: 2, normal: 3, low: 4],
                         failedTotal: [all: 5, high: 6, normal: 7, low: 8],
