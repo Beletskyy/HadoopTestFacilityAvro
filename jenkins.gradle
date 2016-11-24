@@ -11,11 +11,11 @@ job('build') {
     }
     publishers {
             checkstyle('build/reports/checkstyle/checkstyle-result.xml') {
-                healthLimits(3, 20)
+                healthLimits(3, 25)
                 thresholdLimit('high')
                 defaultEncoding('UTF-8')
                 canRunOnFailed(true)
-//                useStableBuildAsReference(true)
+                useStableBuildAsReference(true)
                 useDeltaValues(true)
 //                computeNew(true)
 //                shouldDetectModules(true)
@@ -27,11 +27,11 @@ job('build') {
 //                )
             }
         findbugs('build/reports/findbugs/findbugs.xml', false) {
-                healthLimits(3, 20)
+                healthLimits(3, 25)
                 thresholdLimit('high')
                 defaultEncoding('UTF-8')
                 canRunOnFailed(true)
-//                useStableBuildAsReference(true)
+                useStableBuildAsReference(true)
                 useDeltaValues(true)
 //                computeNew(true)
 //                shouldDetectModules(true)
@@ -43,11 +43,11 @@ job('build') {
 //                )
             }
         pmd('build/reports/pmd/pmd.xml') {
-            healthLimits(3, 20)
+            healthLimits(3, 25)
             thresholdLimit('high')
             defaultEncoding('UTF-8')
             canRunOnFailed(true)
-//            useStableBuildAsReference(true)
+            useStableBuildAsReference(true)
             useDeltaValues(true)
 //            computeNew(true)
 //            shouldDetectModules(true)
