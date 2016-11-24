@@ -9,7 +9,7 @@ job('build') {
         gradle('build')
     }
     publishers {
-            checkstyle('build/reports/checkstyle/checkstyle-result.xml') {
+        checkstyle('build/reports/checkstyle/checkstyle-result.xml') {
                 healthLimits(3, 25)
                 thresholdLimit('high')
                 defaultEncoding('UTF-8')
