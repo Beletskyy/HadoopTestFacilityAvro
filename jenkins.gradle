@@ -10,10 +10,18 @@ job('build') {
         gradle('build')
     }
     publishers {
-        checkstyle {
-            pattern '**/checkstyle-result.xml'
-            healthy "0"
-            unhealthy "100"
+        /*analysisCollector {
+            checkstyle (includeCheckstyle = true)
+            findbugs (includeFindbugs = true)
+            pmd (includePmd = true)
+        }
+*/
+        analysisCollector {
+            checkstyle()
+            findbugs()
+            pmd()
+            tasks()
+            warnings()
         }
     }
 }
