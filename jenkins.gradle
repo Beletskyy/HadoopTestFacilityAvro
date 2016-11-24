@@ -1,4 +1,4 @@
-job('build') {
+job('hadoop') {
     scm {
         git('git://github.com/Beletskyy/HadoopTestFacilityAvro')
     }
