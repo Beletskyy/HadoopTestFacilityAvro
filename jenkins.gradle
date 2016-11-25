@@ -1,12 +1,12 @@
 job('build') {
     scm {
-        git('git://github.com/Beletskyy/HadoopTestFacilityAvro')
+        git('ssh://root@10.10.21.183:22/root/sandbox/HadoopTestFacilityAvro')
     }
     triggers {
         scm('* * * * *')
     }
     steps {
-        gradle('build')
+        gradle('build someTask')
     }
     publishers {
         checkstyle('build/reports/checkstyle/checkstyle-result.xml') {
