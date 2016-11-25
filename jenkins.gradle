@@ -3,33 +3,7 @@ job('build') {
         git {
             remote {
              url('ssh://root@10.10.21.183:22/root/sandbox/HadoopTestFacilityAvro')
-                credentials('''-----BEGIN RSA PRIVATE KEY-----
-MIIEoQIBAAKCAQEAutQ0UpXYv9slhoglvcpkx37FgZJSjOF9//9S2AUx0rZi0nn9
-hbT5Ct3wIRZyDcNmR7YnOig+LuzkV1y+K3ioqubamH3xeJ/YoMtrh72mYledpLNm
-nx5uxxApCyFmlAGVMNGS5Nhbieg0Uf/htid6FGLgcdQ9uYPErsgDfFEoRbrUGzNo
-KzPKGKIkMotqOS/K+ZASyKdUa+r0Vaj90kK+cKP/JRNlTXvr38pjjNZaDLdNTCSt
-sG5/TlD/BqzRS2NHABVq8sF75j6fTWAeV5ampzcurpvyZD9hSfDcjlJyi1u9tRJ4
-1akZgOLvrlN2YmLuMHDRDZRIrgpQSogR1QlArQIBIwKCAQAgBx7plgfmYBUPv5Fw
-/h/nr1UO5eJECWYOoMxfi9ynx36nvSQljLz6jHJO0KXWeUS71hVabUx9EqrNJdd1
-KqCSU3XuQXnaKgfhDO3cwWz66nLLxvumP7s4EWYfKkwZX1tndGJTHcaMq3au+KpZ
-vZ/mPNYE4o49D0ZJ2SUrQRzYwKWLPftUHTQ2spqo9Ldck5wbHJu/8loHxgViIFa4
-bV6Ec2VTI91WmAzBC0CKxdn+qKWo8k99LBGxcMRnXy31ZAHvkNqinQ64oNmo9v4Y
-mxJEt3TKIr/JntVMDS6HanDlsJwmdT4IfvzwgQpP9o7Ss/PT5mpFs+orNf+UK1iE
-fEIDAoGBAPkVMNO0hnQyDVD2kKLVHhUxqFpXRNAApn8cQ/uGhqGsUV/fkak/SvSc
-zX4Be1GEbqw1SGNUfvtiM3EfjJX9O7fov8Ux85G686rRu0xeAYCMcWzUERKUO5by
-fNOJUoQWlB8zViqoGg872yIdx20NCUPiaLyBDJhuGyGKF2/g9cSbAoGBAMAEblph
-WE/82E0NEe8dX1HUa4E8XMyTQVXSUwhtPiAVBtA12zDqZKzc5e0Mg5DlcNq9VtAB
-w8dhC77hdQSMCtkh3f+25Gmg9f7MrrJqDJDfQkM/atZij+4b0c7vEwaOQWT2uw77
-/5wfbGa+GHLdlUaknVNLQ4TuiYaKyR2Z6VBXAoGAFVmWeIvRAqU0V2WXXmoJ5I86
-UOLopB1QGYYUdKUhe5JtX/04XvbL6RTBKA7BbWMfbdiubun8QW7RNZT9a/EiYDiF
-d01sphdWtt7G6Uni3yH7F/TrhT/n2b0DYpa97hCQWnIdVB0JjEb1hpTWlFGTFHJ+
-AYdneseb7O6US2sNwGUCgYEAtQt9/XG5qoCurwxSvOEt/LJWu63xGKgZB8ZOScYW
-AP3h2kFoRBAzCWKPpP0rlz663N5ny29g0e3JPvHUuyT0SRFNp/WViCoMgoZ41BrY
-pdnQww/oY7wEDGNfa1ZxBi5a6ip12u2ZO24Vv/UPvMJK6tW46CJkO4HSH8Su/qcP
-Ln0CgYBTWM5qKwYMbujjDHEpODckqsgyFQGA23MDnND4fti3k1z+ljJg3r7N1vSM
-oUp5BCDQFulhZRxnF7Gm+hhC4n0TbhpGovLYZVGgpX83DXPMU946PgrMUCreU9Z1
-tSyvhDRebhzr5dUps6Lsgy0QellzOEawNkE3+2T3LCFCCeYupQ==
------END RSA PRIVATE KEY-----''')
+                credentials('''5bddc1dc-e121-4cb1-aef4-37a5c8ebfc7a''')
             }
         }
     }
