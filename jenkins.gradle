@@ -3,7 +3,7 @@ job('build') {
         git {
             remote {
              url('ssh://root@10.10.21.183:22/root/sandbox/HadoopTestFacilityAvro')
-                credentials('-----BEGIN RSA PRIVATE KEY-----
+                credentials('''-----BEGIN RSA PRIVATE KEY-----
 MIIEoQIBAAKCAQEAutQ0UpXYv9slhoglvcpkx37FgZJSjOF9//9S2AUx0rZi0nn9
 hbT5Ct3wIRZyDcNmR7YnOig+LuzkV1y+K3ioqubamH3xeJ/YoMtrh72mYledpLNm
 nx5uxxApCyFmlAGVMNGS5Nhbieg0Uf/htid6FGLgcdQ9uYPErsgDfFEoRbrUGzNo
@@ -29,7 +29,7 @@ pdnQww/oY7wEDGNfa1ZxBi5a6ip12u2ZO24Vv/UPvMJK6tW46CJkO4HSH8Su/qcP
 Ln0CgYBTWM5qKwYMbujjDHEpODckqsgyFQGA23MDnND4fti3k1z+ljJg3r7N1vSM
 oUp5BCDQFulhZRxnF7Gm+hhC4n0TbhpGovLYZVGgpX83DXPMU946PgrMUCreU9Z1
 tSyvhDRebhzr5dUps6Lsgy0QellzOEawNkE3+2T3LCFCCeYupQ==
------END RSA PRIVATE KEY-----')
+-----END RSA PRIVATE KEY-----''')
             }
         }
     }
