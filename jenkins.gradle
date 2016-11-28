@@ -37,8 +37,50 @@ job('MyJob') {
             useDeltaValues(true)
             computeNew(true)
         }*/
-        publishScp('10.10.21.184') {
-            entry('/build/libs/*.jar', 'jarFolder', true)
+/*        publishScp('10.10.21.184') {
+            entry('/build/libs*//*.jar', 'jarFolder', true)
+        }*/
+
+        publishOverSsh {
+            server('10.10.21.184') {
+                credentials('root') {
+                    key('-----BEGIN RSA PRIVATE KEY-----\n' +
+                            'MIIEoQIBAAKCAQEAutQ0UpXYv9slhoglvcpkx37FgZJSjOF9//9S2AUx0rZi0nn9\n' +
+                            'hbT5Ct3wIRZyDcNmR7YnOig+LuzkV1y+K3ioqubamH3xeJ/YoMtrh72mYledpLNm\n' +
+                            'nx5uxxApCyFmlAGVMNGS5Nhbieg0Uf/htid6FGLgcdQ9uYPErsgDfFEoRbrUGzNo\n' +
+                            'KzPKGKIkMotqOS/K+ZASyKdUa+r0Vaj90kK+cKP/JRNlTXvr38pjjNZaDLdNTCSt\n' +
+                            'sG5/TlD/BqzRS2NHABVq8sF75j6fTWAeV5ampzcurpvyZD9hSfDcjlJyi1u9tRJ4\n' +
+                            '1akZgOLvrlN2YmLuMHDRDZRIrgpQSogR1QlArQIBIwKCAQAgBx7plgfmYBUPv5Fw\n' +
+                            '/h/nr1UO5eJECWYOoMxfi9ynx36nvSQljLz6jHJO0KXWeUS71hVabUx9EqrNJdd1\n' +
+                            'KqCSU3XuQXnaKgfhDO3cwWz66nLLxvumP7s4EWYfKkwZX1tndGJTHcaMq3au+KpZ\n' +
+                            'vZ/mPNYE4o49D0ZJ2SUrQRzYwKWLPftUHTQ2spqo9Ldck5wbHJu/8loHxgViIFa4\n' +
+                            'bV6Ec2VTI91WmAzBC0CKxdn+qKWo8k99LBGxcMRnXy31ZAHvkNqinQ64oNmo9v4Y\n' +
+                            'mxJEt3TKIr/JntVMDS6HanDlsJwmdT4IfvzwgQpP9o7Ss/PT5mpFs+orNf+UK1iE\n' +
+                            'fEIDAoGBAPkVMNO0hnQyDVD2kKLVHhUxqFpXRNAApn8cQ/uGhqGsUV/fkak/SvSc\n' +
+                            'zX4Be1GEbqw1SGNUfvtiM3EfjJX9O7fov8Ux85G686rRu0xeAYCMcWzUERKUO5by\n' +
+                            'fNOJUoQWlB8zViqoGg872yIdx20NCUPiaLyBDJhuGyGKF2/g9cSbAoGBAMAEblph\n' +
+                            'WE/82E0NEe8dX1HUa4E8XMyTQVXSUwhtPiAVBtA12zDqZKzc5e0Mg5DlcNq9VtAB\n' +
+                            'w8dhC77hdQSMCtkh3f+25Gmg9f7MrrJqDJDfQkM/atZij+4b0c7vEwaOQWT2uw77\n' +
+                            '/5wfbGa+GHLdlUaknVNLQ4TuiYaKyR2Z6VBXAoGAFVmWeIvRAqU0V2WXXmoJ5I86\n' +
+                            'UOLopB1QGYYUdKUhe5JtX/04XvbL6RTBKA7BbWMfbdiubun8QW7RNZT9a/EiYDiF\n' +
+                            'd01sphdWtt7G6Uni3yH7F/TrhT/n2b0DYpa97hCQWnIdVB0JjEb1hpTWlFGTFHJ+\n' +
+                            'AYdneseb7O6US2sNwGUCgYEAtQt9/XG5qoCurwxSvOEt/LJWu63xGKgZB8ZOScYW\n' +
+                            'AP3h2kFoRBAzCWKPpP0rlz663N5ny29g0e3JPvHUuyT0SRFNp/WViCoMgoZ41BrY\n' +
+                            'pdnQww/oY7wEDGNfa1ZxBi5a6ip12u2ZO24Vv/UPvMJK6tW46CJkO4HSH8Su/qcP\n' +
+                            'Ln0CgYBTWM5qKwYMbujjDHEpODckqsgyFQGA23MDnND4fti3k1z+ljJg3r7N1vSM\n' +
+                            'oUp5BCDQFulhZRxnF7Gm+hhC4n0TbhpGovLYZVGgpX83DXPMU946PgrMUCreU9Z1\n' +
+                            'tSyvhDRebhzr5dUps6Lsgy0QellzOEawNkE3+2T3LCFCCeYupQ==\n' +
+                            '-----END RSA PRIVATE KEY-----')
+                }
+                label('server-01')
+                transferSet {
+                    sourceFiles('**/*.jar')
+
+                }
+            }
+            parameterizedPublishing('PARAMETER')
         }
+
+
     }
 }
