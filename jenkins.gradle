@@ -1,4 +1,4 @@
-job('build') {
+job('buildMy') {
    scm {
         git {
             remote {
@@ -11,7 +11,7 @@ job('build') {
         scm('* * * * *')
     }
     steps {
-        gradle('build')
+        gradle('build deploy')
     }
     publishers {
         checkstyle('build/reports/checkstyle/checkstyle-result.xml') {
@@ -42,4 +42,9 @@ job('build') {
             computeNew(true)
         }
     }
+
+    publishScp('10.10.21.184') {
+        entry('build/libs/**', 'app', true)
+    }
+
 }
