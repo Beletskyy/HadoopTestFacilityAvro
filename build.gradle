@@ -77,7 +77,7 @@ jar {
   }
 }
 
-tasks.withType(Checkstyle) {
+/*tasks.withType(Checkstyle) {
   reports {
     source 'src'
     html.enabled false
@@ -132,4 +132,4 @@ tasks.withType(Pmd) {
             'java-unusedcode'
     ]
   }
-}
+}*/
