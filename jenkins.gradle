@@ -11,7 +11,7 @@ job('MyJob') {
         scm('* * * * *')
     }
     steps {
-        gradle('build deploy')
+        gradle('build')
     }
     publishers {
         checkstyle('build/reports/checkstyle/checkstyle-result.xml') {
