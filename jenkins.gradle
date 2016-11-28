@@ -42,7 +42,7 @@ job('MyJob') {
             computeNew(true)
         }
         publishScp('10.10.21.184') {
-            entry('build/libs/**', 'app', true)
+            entry('build/libs/facility.jar', 'app', true)
         }
     }
 }
