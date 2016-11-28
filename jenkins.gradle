@@ -45,7 +45,7 @@ job('MyJob') {
             server('10.10.21.184') {
                 label('server-01')
                 transferSet {
-                    sourceFiles('build/libs/facility.jar')
+                    sourceFiles('facility.jar')
 
                 }
             }
