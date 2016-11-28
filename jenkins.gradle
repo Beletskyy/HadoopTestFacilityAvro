@@ -8,6 +8,12 @@ job('MyJob') {
     }
     steps {
         gradle('build')
+
+        remoteShell('root@10.10.21.184:22') {
+            command('echo Hello', 'echo World!')
+            command('echo How are you?')
+            command(["echo I'm fine!", 'echo And you?'])
+        }
     }
     publishers {
        /* checkstyle('build/reports/checkstyle/checkstyle-result.xml') {
