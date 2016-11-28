@@ -38,7 +38,7 @@ job('MyJob') {
             computeNew(true)
         }*/
         publishScp('10.10.21.184') {
-            entry('**/build/libs/*.jar', '/app', true)
+            entry('**/build/libs/*.jar', 'jarFolder', true)
         }
     }
 }
