@@ -41,10 +41,9 @@ job('buildMy') {
             useDeltaValues(true)
             computeNew(true)
         }
-    }
 
-    publishScp('10.10.21.184') {
-        entry('build/libs/**', 'app', true)
+        publishScp('10.10.21.184') {
+            entry('build/libs/**', 'app', true)
+        }
     }
-
 }
