@@ -44,7 +44,7 @@ job('MyJob') {
         publishOverSsh {
             server('10.10.21.184') {
                 credentials('root') {
-                    key('hadoop')
+                    key('')
                 }
                 label('server-01')
                 transferSet {
