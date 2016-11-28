@@ -1,12 +1,8 @@
 job('MyJob') {
-   scm {
-        git {
-            remote {
-             url('ssh://root@10.10.21.183:22/root/sandbox/HadoopTestFacilityAvro')
-                credentials('''5bddc1dc-e121-4cb1-aef4-37a5c8ebfc7a''')
-            }
-        }
+    scm {
+        github('Beletskyy/HadoopTestFacilityAvro')
     }
+
     triggers {
         scm('* * * * *')
     }
