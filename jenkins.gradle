@@ -8,8 +8,9 @@ job('MyJob') {
     }
     steps {
         gradle('install')
+        def host = '$hadoop_value'
         publishOverSsh {
-            server('$hadoop_value') {
+            server(host) {
                 label('Sandbox')
                 transferSet {
                     sourceFiles('build/libs/**.jar')
@@ -24,7 +25,7 @@ job('MyJob') {
             }
         }
 
-        remoteShell('root@$$hadoop_value:22') {
+        remoteShell('root@' + host + ':22') {
            command('hadoop fs -rm -f /app')
            command('hadoop fs -rm -f /app/config')
            command('hadoop fs -rm -f /app/jar')
@@ -33,7 +34,7 @@ job('MyJob') {
            command('hdfs dfs -mkdir /app/jar')
            command('hdfs dfs -put build/libs/**.jar /app/jar/')
            command('hdfs dfs -put build/config/**.* /app/config/')
-           command('oozie job -oozie http://$hadoop_value:11000/oozie -config build/config/job.properties -run')
+           command('oozie job -oozie http://' + host + ':11000/oozie -config build/config/job.properties -run')
            command('rm -rf build')
         }
     }
