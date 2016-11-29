@@ -2,6 +2,7 @@ job('MyJob') {
     parameters {
         globalVariableParam('hadoop_server', '${GLOBAL_HOST}', 'my sandbox')
     }
+    def shell = 'root@$hadoop_server:22'
     scm {
         github('Beletskyy/HadoopTestFacilityAvro')
     }
@@ -28,7 +29,7 @@ job('MyJob') {
         }
 
 
-        remoteShell('root@10.10.21.184:22') {
+        remoteShell(shell) {
            command('echo $hadoop_server')
            command('echo root@$hadoop_server:22')
            command('hadoop fs -rm -f /app')
