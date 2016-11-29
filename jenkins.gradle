@@ -27,19 +27,20 @@ job('MyJob') {
             }
         }
 
+
         remoteShell('root@$hadoop_server:22') {
            command('echo $hadoop_server')
            command('echo root@$hadoop_server:22')
            command('hadoop fs -rm -f /app')
-//           command('hadoop fs -rm -f /app/config')
-//           command('hadoop fs -rm -f /app/jar')
-//           command('hdfs dfs -mkdir /app')
-//           command('hdfs dfs -mkdir /app/config')
-//           command('hdfs dfs -mkdir /app/jar')
-//           command('hdfs dfs -put build/libs/**.jar /app/jar/')
-//           command('hdfs dfs -put build/config/**.* /app/config/')
-//           command('oozie job -oozie http://10.10.21.184:11000/oozie -config build/config/job.properties -run')
-//           command('rm -rf build')
+           command('hadoop fs -rm -f /app/config')
+           command('hadoop fs -rm -f /app/jar')
+           command('hdfs dfs -mkdir /app')
+           command('hdfs dfs -mkdir /app/config')
+           command('hdfs dfs -mkdir /app/jar')
+           command('hdfs dfs -put build/libs/**.jar /app/jar/')
+           command('hdfs dfs -put build/config/**.* /app/config/')
+           command('oozie job -oozie http://10.10.21.184:11000/oozie -config build/config/job.properties -run')
+           command('rm -rf build')
         }
     }
     publishers {
