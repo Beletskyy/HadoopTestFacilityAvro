@@ -83,19 +83,6 @@ task install(type: Copy) {
   into "${project.projectDir}/build/libs"
 }
 
-//tasks.withType(org.gradle.api.tasks.bundling.Jar){
-//  doFirst {
-//    into( '' ) {
-//      from { configurations.compile.minus( [configurations.provided] ) }
-////       from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {
-////        exclude "META-INF/*.SF"
-////       exclude "META-INF/*.DSA"
-////       exclude "META-INF/*.RSA"
-////      }
-//    }
-//  }
-//}
-
 tasks.withType(Checkstyle) {
   reports {
     source 'src'
