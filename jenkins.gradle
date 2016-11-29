@@ -1,6 +1,6 @@
 job('MyJob') {
     parameters {
-        globalVariableParam('hadoop_server', '${HADOOP_HOST}', 'my sandbox')
+        globalVariableParam('hadoop_server', '${GLOBAL_HOST}', 'my sandbox')
     }
     scm {
         github('Beletskyy/HadoopTestFacilityAvro')
