@@ -13,10 +13,12 @@ job('MyJob') {
                 label('server-01')
                 transferSet {
                     sourceFiles('build/libs/facility.jar')
+                    remoteDirectory('build/libs')
                     flattenFiles(true)
                 }
                 transferSet {
                     sourceFiles('src/main/resources/job.properties')
+                    remoteDirectory('build/libs')
                     flattenFiles(true)
                 }
             }
@@ -29,7 +31,7 @@ job('MyJob') {
         }
     }
     publishers {
-       /* checkstyle('build/reports/checkstyle/checkstyle-result.xml') {
+        checkstyle('build/reports/checkstyle/checkstyle-result.xml') {
                 healthLimits(3, 25)
                 thresholdLimit('high')
                 defaultEncoding('UTF-8')
@@ -55,11 +57,6 @@ job('MyJob') {
             useStableBuildAsReference(true)
             useDeltaValues(true)
             computeNew(true)
-        }*/
-/*        publishScp('10.10.21.184') {
-            entry('/build/libs*//*.jar', 'jarFolder', true)
-        }*/
-
-
+        }
     }
 }
