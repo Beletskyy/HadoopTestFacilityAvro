@@ -76,7 +76,7 @@ jar {
     attributes( "Main-Class": "com/nixsolutions/hadoop/facilityavro/Main" )
   }
 }
-task copyJar{
+tasks.withType(org.gradle.api.tasks.bundling.Jar){
   doFirst {
     into( 'build/libs' ) {
       from { configurations.compile.minus( [configurations.provided] ) }
