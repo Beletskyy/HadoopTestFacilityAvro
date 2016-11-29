@@ -29,7 +29,7 @@ job('MyJob') {
 
         remoteShell('root@10.10.21.184:22') {
            command('echo $hadoop_server')
-           command('echo root@10.10.21.184:22')
+           command('echo root@$hadoop_server:22')
 //           command('hadoop fs -rm -f /app')
 //           command('hadoop fs -rm -f /app/config')
 //           command('hadoop fs -rm -f /app/jar')
