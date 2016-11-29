@@ -1,4 +1,7 @@
 job('MyJob') {
+    parameters {
+        globalVariableParam('hadoop_server', '${HADOOP_HOST}', 'my sandbox')
+    }
     scm {
         github('Beletskyy/HadoopTestFacilityAvro')
     }
@@ -8,9 +11,8 @@ job('MyJob') {
     }
     steps {
         gradle('install')
-        def host = $hadoop_value
         publishOverSsh {
-            server(host) {
+            server('$hadoop_server') {
                 label('Sandbox')
                 transferSet {
                     sourceFiles('build/libs/**.jar')
@@ -25,7 +27,7 @@ job('MyJob') {
             }
         }
 
-        remoteShell('root@' + host + ':22') {
+        remoteShell('root@$hadoop_server:22') {
            command('hadoop fs -rm -f /app')
            command('hadoop fs -rm -f /app/config')
            command('hadoop fs -rm -f /app/jar')
@@ -34,7 +36,7 @@ job('MyJob') {
            command('hdfs dfs -mkdir /app/jar')
            command('hdfs dfs -put build/libs/**.jar /app/jar/')
            command('hdfs dfs -put build/config/**.* /app/config/')
-           command('oozie job -oozie http://' + host + ':11000/oozie -config build/config/job.properties -run')
+           command('oozie job -oozie http://$hadoop_server:11000/oozie -config build/config/job.properties -run')
            command('rm -rf build')
         }
     }
