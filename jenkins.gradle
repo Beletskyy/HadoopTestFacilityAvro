@@ -13,6 +13,9 @@ job('MyJob') {
                 label('server-01')
                 transferSet {
                     sourceFiles('build/libs/facility.jar')
+                    flattenFiles(true)
+                }
+                transferSet {
                     sourceFiles('src/main/resources/job.properties')
                     flattenFiles(true)
                 }
