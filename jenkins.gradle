@@ -12,7 +12,7 @@ job('MyJob') {
             server('10.10.21.184') {
                 label('Sandbox')
                 transferSet {
-                    sourceFiles('build/libs/facility.jar')
+                    sourceFiles('build/libs/**.jar')
                     remoteDirectory('build/libs')
                     flattenFiles(true)
                 }
@@ -30,7 +30,8 @@ job('MyJob') {
         }
 
         remoteShell('root@10.10.21.184:22') {
-           command('hadoop fs -rm /app/config')
+           command('hadoop fs -rm -rf /app/config')
+           command('hadoop fs -rm -rf /app/jar')
 //           command('hadoop fs -rm /app/facility.jar')
            command('hdfs dfs -mkdir /app/config')
            command('hdfs dfs -mkdir /app/jar')
