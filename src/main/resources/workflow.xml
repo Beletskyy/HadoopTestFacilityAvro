@@ -1,4 +1,4 @@
-<workflow-app xmlns="uri:oozie:workflow:0.4" name="java-wf">
+<workflow-app name="java-wf" xmlns="uri:oozie:workflow:0.4">
     <start to="java-node"/>
     <action name="java-node">
         <java>
@@ -14,11 +14,11 @@
             <arg>${inputDir}</arg>
             <arg>${outputDir}</arg>
         </java>
-    <ok to="end"/>
-    <error to="fail"/>
+        <ok to="end"/>
+        <error to="kill"/>
     </action>
-    <kill name="fail">
-        <message>Java action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    <kill name="kill">
+        <message>Action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
     </kill>
     <end name="end"/>
 </workflow-app>

@@ -1,19 +1,19 @@
 <coordinator-app name="HadoopTestFacilityAvro"
                  frequency="${coord:days(1)}"
-                 start="2016-11-18T04:00Z" end="2020-01-04T08:00Z" timezone="UTC"
+                 start="2016-11-28T03:00Z" end="2016-12-30T04:00Z" timezone="Europe/Kiev"
                  xmlns="uri:oozie:coordinator:0.2">
 
     <datasets>
         <dataset name="inputdataset" frequency="${coord:days(1)}"
-                 initial-instance="2016-11-18T04:00Z" timezone="UTC">
+                 initial-instance="2016-11-28T03:00Z" timezone="Europe/Kiev">
             <uri-template>
-                    ${nameNode}/dataforge/raw/data-assets/${customerID}/${ce_supplierId}/FacilityMapping/${YEAR}${MONTH}${DAY}000000
+                ${nameNode}/dataforge/raw/data-assets/${customerID}/${ce_supplierId}/FacilityMapping/${YEAR}${MONTH}${DAY}000000
             </uri-template>
             <done-flag></done-flag>
         </dataset>
 
         <dataset name="outputdataset" frequency="${coord:days(1)}"
-                 initial-instance="2016-11-18T04:00Z" timezone="UTC">
+                 initial-instance="2016-11-28T03:00Z" timezone="Europe/Kiev">
             <uri-template>
                 ${nameNode}/dataforge/standardized/data-assets/${customerID}/${ce_supplierId}/FacilityMapping/${YEAR}${MONTH}${DAY}000000
             </uri-template>
@@ -35,7 +35,7 @@
     <!--ACTION-->
     <action>
         <workflow>
-            <app-path>${workflowAppUri}</app-path>
+            <app-path>${wf_application_path}</app-path>
             <configuration>
                 <property>
                     <name>inputDir</name>
