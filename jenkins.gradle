@@ -8,7 +8,7 @@ job('MyJob') {
     }
     steps {
         gradle('install')
-        def host = '$hadoop_value'
+        def host = $hadoop_value
         publishOverSsh {
             server(host) {
                 label('Sandbox')
@@ -68,5 +68,3 @@ job('MyJob') {
         }
     }
 }
-
-
