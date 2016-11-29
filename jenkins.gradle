@@ -10,7 +10,7 @@ job('MyJob') {
         gradle('build')
         publishOverSsh {
             server('10.10.21.184') {
-                label('server-01')
+                label('Sandbox')
                 transferSet {
                     sourceFiles('build/libs/facility.jar')
                     remoteDirectory('build/libs')
@@ -18,7 +18,12 @@ job('MyJob') {
                 }
                 transferSet {
                     sourceFiles('src/main/resources/job.properties')
-                    remoteDirectory('build/libs')
+                    remoteDirectory('build/config')
+                    flattenFiles(true)
+                }
+                transferSet {
+                    sourceFiles('src/main/resources/**.xml')
+                    remoteDirectory('build/config')
                     flattenFiles(true)
                 }
             }
@@ -27,7 +32,9 @@ job('MyJob') {
         remoteShell('root@10.10.21.184:22') {
            command('hadoop fs -rm /app/facility.jar')
            command('hdfs dfs -put build/libs/facility.jar /app/facility.jar')
+           command('hdfs dfs -put build/config/**.xml /app/config/')
            command('oozie job -oozie http://10.10.21.184:11000/oozie -config build/libs/job.properties -run')
+
         }
     }
     publishers {
