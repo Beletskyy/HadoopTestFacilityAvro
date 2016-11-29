@@ -31,6 +31,7 @@ job('MyJob') {
 
         remoteShell('root@10.10.21.184:22') {
            command('hadoop fs -rm /app/facility.jar')
+           command('hdfs dfs -mkdir /app/config')
            command('hdfs dfs -put build/libs/facility.jar /app/facility.jar')
            command('hdfs dfs -put build/config/**.xml /app/config/')
            command('oozie job -oozie http://10.10.21.184:11000/oozie -config build/libs/job.properties -run')
