@@ -17,12 +17,7 @@ job('MyJob') {
                     flattenFiles(true)
                 }
                 transferSet {
-                    sourceFiles('src/main/resources/job.properties')
-                    remoteDirectory('build/config')
-                    flattenFiles(true)
-                }
-                transferSet {
-                    sourceFiles('src/main/resources/**.xml')
+                    sourceFiles('src/main/resources/**.*')
                     remoteDirectory('build/config')
                     flattenFiles(true)
                 }
@@ -33,7 +28,6 @@ job('MyJob') {
            command('hadoop fs -rm -f /app')
            command('hadoop fs -rm -f /app/config')
            command('hadoop fs -rm -f /app/jar')
-//           command('hadoop fs -rm /app/facility.jar')
            command('hdfs dfs -mkdir /app')
            command('hdfs dfs -mkdir /app/config')
            command('hdfs dfs -mkdir /app/jar')
