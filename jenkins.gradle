@@ -12,7 +12,7 @@ job('MyJob') {
     steps {
         gradle('install')
         publishOverSsh {
-            server('hadoop_server') {
+            server('${HADOOP_HOST}') {
                 label('Sandbox')
                 transferSet {
                     sourceFiles('build/libs/**.jar')
