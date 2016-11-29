@@ -78,13 +78,13 @@ jar {
 }
 tasks.withType(org.gradle.api.tasks.bundling.Jar){
   doFirst {
-    into( 'build/libs' ) {
-//      from { configurations.compile.minus( [configurations.provided] ) }
-       from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {
-        exclude "META-INF/*.SF"
-       exclude "META-INF/*.DSA"
-       exclude "META-INF/*.RSA"
-      }
+    into( '' ) {
+      from { configurations.compile.minus( [configurations.provided] ) }
+//       from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {
+//        exclude "META-INF/*.SF"
+//       exclude "META-INF/*.DSA"
+//       exclude "META-INF/*.RSA"
+//      }
     }
   }
 }
