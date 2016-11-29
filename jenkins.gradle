@@ -8,11 +8,19 @@ job('MyJob') {
     }
     steps {
         gradle('build')
+        publishOverSsh {
+            server('10.10.21.184') {
+                label('server-01')
+                transferSet {
+                    sourceFiles('build/libs/facility.jar')
+                }
+            }
+        }
 
         remoteShell('root@10.10.21.184:22') {
            command('hadoop fs -rm /app/facility.jar')
            command('hdfs dfs -put build/libs/facility.jar /app/facility.jar')
-           command('')
+           command('oozie job -oozie http://10.10.21.184:11000/oozie -config props/job.properties -run')
         }
     }
     publishers {
@@ -47,13 +55,6 @@ job('MyJob') {
             entry('/build/libs*//*.jar', 'jarFolder', true)
         }*/
 
-        publishOverSsh {
-            server('10.10.21.184') {
-                label('server-01')
-                transferSet {
-                    sourceFiles('build/libs/facility.jar')
-                }
-            }
-        }
+
     }
 }
