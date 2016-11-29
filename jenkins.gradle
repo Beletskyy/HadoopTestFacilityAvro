@@ -12,7 +12,7 @@ job('MyJob') {
     steps {
         gradle('install')
         publishOverSsh {
-            server('$hadoop_server') {
+            server('10.10.21.184') {
                 label('Sandbox')
                 transferSet {
                     sourceFiles('build/libs/**.jar')
@@ -27,7 +27,7 @@ job('MyJob') {
             }
         }
 
-        remoteShell('root@$hadoop_server:22') {
+        remoteShell('root@10.10.21.184:22') {
            command('echo $hadoop_server')
 //           command('hadoop fs -rm -f /app')
 //           command('hadoop fs -rm -f /app/config')
