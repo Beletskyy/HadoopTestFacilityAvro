@@ -76,6 +76,13 @@ jar {
     attributes( "Main-Class": "com/nixsolutions/hadoop/facilityavro/Main" )
   }
 }
+task copyJar{
+  doFirst {
+    into( 'build/libs' ) {
+      from { configurations.compile.minus( [configurations.provided] ) }
+    }
+  }
+}
 
 tasks.withType(Checkstyle) {
   reports {
