@@ -26,7 +26,6 @@ job('MyJob') {
                 }
             }
         }
-
         remoteShell('root@10.10.21.184:22') {
            command('hadoop fs -rm -r -f /app')
            //command('hadoop fs -rm -f /app/config')
