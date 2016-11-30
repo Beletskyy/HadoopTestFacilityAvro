@@ -28,9 +28,9 @@ job('MyJob') {
         }
 
         remoteShell('root@10.10.21.184:22') {
-           command('hadoop fs -rm -f /app')
-           command('hadoop fs -rm -f /app/config')
-           command('hadoop fs -rm -f /app/jar')
+           command('hadoop fs -rm -r -f /app')
+           //command('hadoop fs -rm -f /app/config')
+           //command('hadoop fs -rm -f /app/jar')
            command('hdfs dfs -mkdir /app')
            command('hdfs dfs -mkdir /app/config')
            command('hdfs dfs -mkdir /app/jar')
@@ -39,6 +39,7 @@ job('MyJob') {
            command('oozie job -oozie http://10.10.21.184:11000/oozie -config build/config/job.properties -run')
            command('rm -rf build')
         }
+
     }
     /*
     publishers {
