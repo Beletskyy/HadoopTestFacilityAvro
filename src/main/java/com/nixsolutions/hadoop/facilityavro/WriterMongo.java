@@ -97,15 +97,15 @@ public class WriterMongo {
 
             DBObject dbObject = (DBObject)JSON.parse(json);
 
-            collection.insert(dbObject);
+            collection.save(dbObject);
 
             DBCursor cursorDocJSON = collection.find();
             while (cursorDocJSON.hasNext()) {
-
+                System.out.println("IN while");
                 System.out.println(cursorDocJSON.next());
             }
 
-            collection.remove(new BasicDBObject());
+            //collection.remove(new BasicDBObject());
 
             } /*catch (UnknownHostException e) {
                 e.printStackTrace();
