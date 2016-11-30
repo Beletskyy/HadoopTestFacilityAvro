@@ -14,10 +14,10 @@
             <arg>${inputDir}</arg>
             <arg>${outputDir}</arg>
         </java>
-        <ok to="end"/>
+        <ok to="mongo"/>
         <error to="kill"/>
     </action>
-    <action name="test-mongo">
+    <action name="mongo">
         <java>
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
