@@ -21,9 +21,9 @@ apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'provided-base'
 apply plugin: 'avro-gradle-plugin'
-apply plugin: 'checkstyle'
-apply plugin: 'findbugs'
-apply plugin: 'pmd'
+//apply plugin: 'checkstyle'
+//apply plugin: 'findbugs'
+//apply plugin: 'pmd'
 apply plugin: 'org.hidetake.ssh'
 
 archivesBaseName = 'facility'
@@ -107,6 +107,7 @@ task newTask {
   }
 }
 
+/*
 tasks.withType(Checkstyle) {
   reports {
     source 'src'
@@ -163,3 +164,4 @@ tasks.withType(Pmd) {
     ]
   }
 }
+*/
