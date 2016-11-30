@@ -15,11 +15,13 @@ public class WriterMongo {
             //MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
             // Now connect to your databases
             DB db = mongo.getDB("yourdb");
+            System.out.println("db.getName() - " + db.getName());
 
             /**** Get collection / table from 'testdb' ****/
             // if collection doesn't exists, MongoDB will create it for you
             DBCollection collection = db.getCollection("dummyColl");
-
+            System.out.println("collection " + collection.getName());
+            System.out.println("collection FN" + collection.getFullName());
 /*
             // 1. BasicDBObject example
             System.out.println("BasicDBObject example...");
@@ -99,6 +101,7 @@ public class WriterMongo {
 
             DBCursor cursorDocJSON = collection.find();
             while (cursorDocJSON.hasNext()) {
+
                 System.out.println(cursorDocJSON.next());
             }
 
