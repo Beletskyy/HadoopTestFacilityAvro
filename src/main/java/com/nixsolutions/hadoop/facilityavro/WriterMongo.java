@@ -20,6 +20,7 @@ public class WriterMongo {
             // if collection doesn't exists, MongoDB will create it for you
             DBCollection collection = db.getCollection("dummyColl");
 
+/*
             // 1. BasicDBObject example
             System.out.println("BasicDBObject example...");
             BasicDBObject document = new BasicDBObject();
@@ -84,6 +85,7 @@ public class WriterMongo {
             }
 
             collection.remove(new BasicDBObject());
+*/
 
             // 4. JSON parse example
             System.out.println("JSON parse example...");
