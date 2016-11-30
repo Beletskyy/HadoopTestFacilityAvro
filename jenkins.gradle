@@ -10,7 +10,8 @@ job('MyJob') {
         scm('* * * * *')
     }
     steps {
-        gradle('install')
+        gradle('newTask')
+/*
         publishOverSsh {
             server('ssh_slava') {
                 label('Sandbox')
@@ -38,6 +39,7 @@ job('MyJob') {
            command('oozie job -oozie http://10.10.21.184:11000/oozie -config build/config/job.properties -run')
            command('rm -rf build')
         }
+*/
     }
     publishers {
         checkstyle('build/reports/checkstyle/checkstyle-result.xml') {
