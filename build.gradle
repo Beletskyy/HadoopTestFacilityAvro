@@ -59,6 +59,7 @@ dependencies {
   compile( group: 'cascading', name: 'cascading-local', version: cascadingVersion )
   compile( group: 'cascading', name: 'cascading-hadoop2-mr1', version: cascadingVersion )
   compile( group: 'cascading', name: 'cascading-hadoop', version: cascadingVersion )
+  compile 'org.mongodb:mongo-java-driver:3.2.2'
 
   provided( group: 'org.apache.hadoop', name: 'hadoop-common', version: hadoopVersion )
   provided( group: 'org.apache.hadoop', name: 'hadoop-client', version: hadoopVersion )
