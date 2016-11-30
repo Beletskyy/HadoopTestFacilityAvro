@@ -91,10 +91,12 @@ remotes {
     password = 'hadoop'
   }
 }
-
+ssh.settings {
+  knownHosts = allowAnyHosts
+}
 task newTask {
   dependsOn install
-  ssh.run {
+    ssh.run {
     session(remotes.sandbox) {
       execute 'rm -rf build;'
       execute 'mkdir build; cd build; mkdir config; mkdir libs'
