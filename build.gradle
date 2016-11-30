@@ -83,6 +83,27 @@ task install(type: Copy) {
   into "${project.projectDir}/build/libs"
 }
 
+remotes {
+  sandbox {
+    role 'masterNode'
+    host = '10.10.21.184'
+    user = 'root'
+    password = 'hadoop'
+  }
+}
+
+task newTask {
+  dependsOn install
+  ssh.run {
+    session(remotes.sandbox) {
+      execute 'rm -rf build;'
+      execute 'mkdir build; cd build; mkdir config; mkdir libs'
+      put from: file('build/libs/**.*'), into: 'build/libs';
+      put from: file('src/main/resources/**.*'), into: 'build/config';
+    }
+  }
+}
+
 tasks.withType(Checkstyle) {
   reports {
     source 'src'
