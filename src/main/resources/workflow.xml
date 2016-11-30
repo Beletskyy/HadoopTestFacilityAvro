@@ -1,6 +1,6 @@
 <workflow-app name="java-wf" xmlns="uri:oozie:workflow:0.4">
-    <start to="java-node"/>
-    <action name="java-node">
+    <start to="make-avro"/>
+    <action name="make-avro">
         <java>
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
@@ -13,6 +13,21 @@
             <main-class>com.nixsolutions.hadoop.facilityavro.Main</main-class>
             <arg>${inputDir}</arg>
             <arg>${outputDir}</arg>
+        </java>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    <action name="test-mongo">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+            <main-class>com.nixsolutions.hadoop.facilityavro.WriterMongo</main-class>
         </java>
         <ok to="end"/>
         <error to="kill"/>
