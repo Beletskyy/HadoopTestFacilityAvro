@@ -1,5 +1,5 @@
 <workflow-app name="java-wf" xmlns="uri:oozie:workflow:0.4">
-    <start to="make-avro"/>
+    <start to="mongo"/>
     <action name="make-avro">
         <java>
             <job-tracker>${jobTracker}</job-tracker>
