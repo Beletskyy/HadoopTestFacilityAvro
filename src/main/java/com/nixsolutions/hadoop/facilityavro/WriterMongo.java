@@ -15,7 +15,7 @@ public class WriterMongo {
         }
         // Input file
         String inputPath = args[0];
-        String jsonData = Deserializer.getJsonFromAvro(inputPath);
+        String jsonData = Deserializer.getJsonFromAvro(inputPath + "/facility.avro");
 
         try {
             /**** Connect to MongoDB ****/
