@@ -118,7 +118,7 @@ public class WriterMongo {
                 System.out.println(cursorDocJSON.next());
             }
 
-            collection.remove(new BasicDBObject());
+            //collection.remove(new BasicDBObject());
 
             } /*catch (UnknownHostException e) {
                 e.printStackTrace();
