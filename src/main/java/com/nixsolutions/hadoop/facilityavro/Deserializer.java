@@ -12,12 +12,15 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 class Deserializer {
-    static String getJsonFromAvro(String pathAvroFile) {
+    static List<String> getJsonFromAvro(String pathAvroFile) {
         System.out.println("in method");
         System.out.println(pathAvroFile);
-        StringBuilder result = new StringBuilder("{");
+        List<String> resultList = new ArrayList<>();
+
 
         Configuration config = new Configuration();
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
@@ -33,15 +36,15 @@ class Deserializer {
                     = DataFileReader.openReader(in, reader);
 
             for (GenericRecord datum : fileReader) {
-                result.append(datum);
+                resultList.add(datum.toString());
             }
 
             fileReader.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        result.append("}");
-        System.out.println("result - " + result);
-        return result.toString();
+        System.out.println(resultList.size());
+        System.out.println(resultList);
+        return resultList;
     }
 }
