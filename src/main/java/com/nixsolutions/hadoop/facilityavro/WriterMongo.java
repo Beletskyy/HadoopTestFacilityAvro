@@ -26,6 +26,7 @@ public class WriterMongo {
             collection.remove(new BasicDBObject());
 
             DBObject dbObject = (DBObject)JSON.parse(jsonData);
+
             collection.insert(dbObject);
 /*
             DBCursor cursorDocJSON = collection.find();

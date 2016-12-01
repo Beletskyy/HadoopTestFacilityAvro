@@ -17,7 +17,7 @@ class Deserializer {
     static String getJsonFromAvro(String pathAvroFile) {
         System.out.println("in method");
         System.out.println(pathAvroFile);
-        StringBuilder result = new StringBuilder();
+        StringBuilder result = new StringBuilder("{");
 
         Configuration config = new Configuration();
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
@@ -40,7 +40,7 @@ class Deserializer {
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        result.append("}");
+        result.append("}");
         System.out.println("result - " + result);
         return result.toString();
     }
