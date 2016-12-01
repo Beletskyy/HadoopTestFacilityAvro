@@ -1,9 +1,6 @@
 package com.nixsolutions.hadoop.facilityavro;
 
 import com.mongodb.*;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.util.JSON;
 
 public class WriterMongo {
@@ -20,19 +17,27 @@ public class WriterMongo {
             /**** Connect to MongoDB ****/
             MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
             // Now connect to your databases
-            MongoDatabase db = mongoClient.getDatabase("goodJson");
+            DB db = mongoClient.getDB("goodJson");
 
             System.out.println("db.getName() - " + db.getName());
 
             /**** Get collection / table from 'goodJson' ****/
             // if collection doesn't exists, MongoDB will create it for you
-            MongoCollection collection = db.getCollection("goodJsonColl");
+            DBCollection collection = db.getCollection("goodJsonColl");
 
             //JSON parse example
             System.out.println("JSON parse example...");
 
             DBObject dbObject = (DBObject)JSON.parse(jsonData);
-            collection.insertOne(dbObject);
+            collection.insert(dbObject);
+/*
+
+            DBCursor cursorDocJSON = collection.find();
+            while (cursorDocJSON.hasNext()) {
+                System.out.println(cursorDocJSON.next());
+            }
+//            collection.remove(new BasicDBObject());
+*/
 
             } catch (MongoException e) {
             e.printStackTrace();
