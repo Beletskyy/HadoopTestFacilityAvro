@@ -14,10 +14,9 @@ public class WriterMongo {
             System.exit(1);
         }
         // Input file
-        String inputPath = args[0];
-        String jsonData = Deserializer.getJsonFromAvro("" + inputPath + "/facility.avro");
-        System.out.println("============");
-        System.out.println(jsonData);
+        String inputPath = args[0]+ "/facility.avro";
+        System.out.println("inputPath - " + inputPath);
+        String jsonData = Deserializer.getJsonFromAvro(inputPath);
         try {
             /**** Connect to MongoDB ****/
             MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));

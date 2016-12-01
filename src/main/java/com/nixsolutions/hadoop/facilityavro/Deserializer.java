@@ -52,6 +52,7 @@ public class Deserializer {
             e.printStackTrace();
         }
         result.append("}");
+        System.out.println("result - " + result);
         return result.toString();
     }
 
