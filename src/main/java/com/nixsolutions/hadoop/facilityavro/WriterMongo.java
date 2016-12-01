@@ -19,16 +19,15 @@ public class WriterMongo {
             DB db = mongoClient.getDB("facility");
             System.out.println("db.getName() - " + db.getName());
 
-            /**** Get collection / table from 'testdb' ****/
+            /**** Get collection / table from 'facility' ****/
             // if collection doesn't exists, MongoDB will create it for you
-            DBCollection collection = db.getCollection("dummyColl");
+            DBCollection collection = db.getCollection("facilityColl");
             System.out.println("collection " + collection.getName());
             System.out.println("collection FN" + collection.getFullName());
-/*
             // 1. BasicDBObject example
             System.out.println("BasicDBObject example...");
             BasicDBObject document = new BasicDBObject();
-            document.put("database", "mkyongDB");
+            document.put("database", "facilityDB");
             document.put("table", "hosting");
 
             BasicDBObject documentDetail = new BasicDBObject();
@@ -89,25 +88,26 @@ public class WriterMongo {
             }
 
             collection.remove(new BasicDBObject());
-*/
 
             // 4. JSON parse example
             System.out.println("JSON parse example...");
 
-            String json = "{'hosting' : 'hostA', 'type' : 'vps', 'clients' : 1000}, { 'hosting' : 'hostB', 'type' : 'dedicated server', 'clients' : 100}, { 'hosting' : 'hostC', 'type' : 'vps', 'clients' : 900}";
+//            String json = "{'hosting' : 'hostA', 'type' : 'vps', 'clients' : 1000}, { 'hosting' : 'hostB', 'type' : 'dedicated server', 'clients' : 100}, { 'hosting' : 'hostC', 'type' : 'vps', 'clients' : 900}";
+            String json = "{'database' : 'mkyongDB','table' : 'hosting'," +
+                    "'detail' : {'records' : 99, 'index' : 'vps_index1', 'active' : 'true'}}}";
 
 
 
-//            DBObject dbObject = (DBObject)JSON.parse(json);
+            DBObject dbObject = (DBObject)JSON.parse(json);
 
-            List<Integer> books = Arrays.asList(27464, 747854);
-            DBObject dbObject = new BasicDBObject("_id", "jo")
-                    .append("name", "Jo Bloggs")
-                    .append("address", new BasicDBObject("street", "123 Fake St")
-                            .append("city", "Faketon")
-                            .append("state", "MA")
-                            .append("zip", 12345))
-                    .append("books", books);
+//            List<Integer> books = Arrays.asList(27464, 747854);
+//            DBObject dbObject = new BasicDBObject("_id", "jo")
+//                    .append("name", "Jo Bloggs")
+//                    .append("address", new BasicDBObject("street", "123 Fake St")
+//                            .append("city", "Faketon")
+//                            .append("state", "MA")
+//                            .append("zip", 12345))
+//                    .append("books", books);
 
 
             collection.insert(dbObject);
@@ -118,7 +118,7 @@ public class WriterMongo {
                 System.out.println(cursorDocJSON.next());
             }
 
-            //collection.remove(new BasicDBObject());
+            collection.remove(new BasicDBObject());
 
             } /*catch (UnknownHostException e) {
                 e.printStackTrace();
