@@ -32,6 +32,8 @@ public class Deserializer {
     }*/
 
     public static String getJsonFromAvro(String pathAvroFile) {
+        System.out.println("in method");
+        System.out.println(pathAvroFile);
         Facility model = null;
         StringBuilder result = new StringBuilder("{");
         //DeSerializing the objects
