@@ -36,7 +36,7 @@ public class Deserializer {
         System.out.println(result);
     }*/
 
-    public static String getJsonFromAvro(String pathAvroFile) throws IOException {
+    public static String getJsonFromAvro(String pathAvroFile) {
         System.out.println("in method");
         System.out.println(pathAvroFile);
         Facility model = null;
@@ -45,12 +45,12 @@ public class Deserializer {
         Configuration config = new Configuration();
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
         config.set("fs.default.name", "hdfs://sandbox.hortonworks.com:8020");
-
+        try {
         FileSystem fs = FileSystem.get(config);
         Path path = new Path(pathAvroFile);
         FSDataInputStream inputStream = fs.open(path);
         BufferedReader br = new BufferedReader(new InputStreamReader(fs.open(path)));
-        
+
         SeekableInput input = new SeekableByteArrayInput(IOUtils.toByteArray(br));
 
         //DeSerializing the objects
@@ -58,7 +58,7 @@ public class Deserializer {
         //Instantiating DataFileReader
         DataFileReader<Facility> dataFileReader = null;
 
-        try {
+
             dataFileReader = new DataFileReader<Facility>(input, facilityDatumReader);
             while(dataFileReader.hasNext()){
                 model = dataFileReader.next(model);
