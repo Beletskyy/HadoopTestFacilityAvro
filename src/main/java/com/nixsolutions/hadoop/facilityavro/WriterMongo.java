@@ -19,19 +19,15 @@ public class WriterMongo {
             // Now connect to your databases
             DB db = mongoClient.getDB("goodJson");
 
-            System.out.println("db.getName() - " + db.getName());
-
             /**** Get collection / table from 'goodJson' ****/
             // if collection doesn't exists, MongoDB will create it for you
             DBCollection collection = db.getCollection("goodJsonColl");
-
-            //JSON parse example
-            System.out.println("JSON parse example...");
+            DBCursor cursorDocJSON = collection.find();
+            collection.remove(new BasicDBObject());
 
             DBObject dbObject = (DBObject)JSON.parse(jsonData);
             collection.insert(dbObject);
 /*
-
             DBCursor cursorDocJSON = collection.find();
             while (cursorDocJSON.hasNext()) {
                 System.out.println(cursorDocJSON.next());
