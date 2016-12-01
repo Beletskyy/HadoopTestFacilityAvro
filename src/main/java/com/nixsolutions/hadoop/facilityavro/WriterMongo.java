@@ -13,7 +13,7 @@ public class WriterMongo {
     public static void main(String[] args) {
         try {
             /**** Connect to MongoDB ****/
-            MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://10.10.21.184:27017"));
+            MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
             //MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
             // Now connect to your databases
             DB db = mongoClient.getDB("facility");
