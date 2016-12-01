@@ -4,17 +4,24 @@ package com.nixsolutions.hadoop.facilityavro;
 import com.nixsolutions.hadoop.model.Facility;
 import org.apache.avro.Schema;
 import org.apache.avro.file.DataFileReader;
+import org.apache.avro.file.FileReader;
 import org.apache.avro.file.SeekableByteArrayInput;
 import org.apache.avro.file.SeekableInput;
 import org.apache.avro.generic.GenericDatumReader;
+import org.apache.avro.generic.GenericDatumWriter;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.*;
+import org.apache.avro.mapred.FsInput;
 import org.apache.avro.specific.SpecificDatumReader;
+import org.apache.avro.tool.DataFileReadTool;
 import org.apache.commons.io.IOUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 
 public class Deserializer {
 /*    public static void main(String[] args) throws IOException {
@@ -51,7 +58,17 @@ public class Deserializer {
             FSDataInputStream inputStream = fs.open(path);
             BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 
-            SeekableInput input = new SeekableByteArrayInput(IOUtils.toByteArray(br));
+            SeekableInput in = new FsInput(path, config);
+            DatumReader<GenericRecord> reader = new GenericDatumReader<GenericRecord>();
+            FileReader<GenericRecord> fileReader = DataFileReader.openReader(in, reader);
+
+            for (GenericRecord datum : fileReader) {
+                System.out.println("value = " + datum);
+            }
+
+            fileReader.close();
+            /*
+//            SeekableInput input = new SeekableByteArrayInput(IOUtils.toByteArray(br));
 
             //DeSerializing the objects
             DatumReader<Facility> facilityDatumReader = new SpecificDatumReader<Facility>(Facility.class);
@@ -63,7 +80,7 @@ public class Deserializer {
                 model = dataFileReader.next(model);
 //            System.out.println(model);
                 result.append(model);
-            }
+            }*/
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -87,7 +104,7 @@ public class Deserializer {
         }
     }*/
 
-    public static String getJsonFromAvro(String pathAvscFile, String pathAvroFile) {
+/*    public static String getJsonFromAvro(String pathAvscFile, String pathAvroFile) {
         StringBuilder result = new StringBuilder("");
         //Instantiating the Schema.Parser class.
         Schema schema = null;
@@ -109,6 +126,6 @@ public class Deserializer {
         }
 
         return result.toString();
-    }
+    }*/
 
 }
