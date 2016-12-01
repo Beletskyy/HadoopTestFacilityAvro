@@ -46,18 +46,17 @@ public class Deserializer {
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
         config.set("fs.default.name", "hdfs://sandbox.hortonworks.com:8020");
         try {
-        FileSystem fs = FileSystem.get(config);
-        Path path = new Path(pathAvroFile);
-        FSDataInputStream inputStream = fs.open(path);
-        BufferedReader br = new BufferedReader(new InputStreamReader(fs.open(path)));
+            FileSystem fs = FileSystem.get(config);
+            Path path = new Path(pathAvroFile);
+            FSDataInputStream inputStream = fs.open(path);
+            BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 
-        SeekableInput input = new SeekableByteArrayInput(IOUtils.toByteArray(br));
+            SeekableInput input = new SeekableByteArrayInput(IOUtils.toByteArray(br));
 
-        //DeSerializing the objects
-        DatumReader<Facility> facilityDatumReader = new SpecificDatumReader<Facility>(Facility.class);
-        //Instantiating DataFileReader
-        DataFileReader<Facility> dataFileReader = null;
-
+            //DeSerializing the objects
+            DatumReader<Facility> facilityDatumReader = new SpecificDatumReader<Facility>(Facility.class);
+            //Instantiating DataFileReader
+            DataFileReader<Facility> dataFileReader = null;
 
             dataFileReader = new DataFileReader<Facility>(input, facilityDatumReader);
             while(dataFileReader.hasNext()){
