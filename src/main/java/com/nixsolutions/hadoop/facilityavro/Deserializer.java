@@ -4,10 +4,15 @@ package com.nixsolutions.hadoop.facilityavro;
 import com.nixsolutions.hadoop.model.Facility;
 import org.apache.avro.Schema;
 import org.apache.avro.file.DataFileReader;
+import org.apache.avro.file.SeekableByteArrayInput;
+import org.apache.avro.file.SeekableInput;
 import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.io.*;
 import org.apache.avro.specific.SpecificDatumReader;
+import org.apache.commons.io.IOUtils;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.*;
 
 import java.io.*;
 
@@ -31,18 +36,30 @@ public class Deserializer {
         System.out.println(result);
     }*/
 
-    public static String getJsonFromAvro(String pathAvroFile) {
+    public static String getJsonFromAvro(String pathAvroFile) throws IOException {
         System.out.println("in method");
         System.out.println(pathAvroFile);
         Facility model = null;
         StringBuilder result = new StringBuilder("{");
+
+        Configuration config = new Configuration();
+        config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
+        config.set("fs.default.name", "hdfs://sandbox.hortonworks.com:8020");
+
+        FileSystem fs = FileSystem.get(config);
+        Path path = new Path(pathAvroFile);
+        FSDataInputStream inputStream = fs.open(path);
+        BufferedReader br = new BufferedReader(new InputStreamReader(fs.open(path)));
+        
+        SeekableInput input = new SeekableByteArrayInput(IOUtils.toByteArray(br));
+
         //DeSerializing the objects
         DatumReader<Facility> facilityDatumReader = new SpecificDatumReader<Facility>(Facility.class);
         //Instantiating DataFileReader
         DataFileReader<Facility> dataFileReader = null;
+
         try {
-            dataFileReader = new DataFileReader<Facility>(new
-                    File(pathAvroFile), facilityDatumReader);
+            dataFileReader = new DataFileReader<Facility>(input, facilityDatumReader);
             while(dataFileReader.hasNext()){
                 model = dataFileReader.next(model);
 //            System.out.println(model);
