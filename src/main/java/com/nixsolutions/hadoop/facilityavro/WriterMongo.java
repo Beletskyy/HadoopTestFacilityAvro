@@ -1,7 +1,9 @@
 package com.nixsolutions.hadoop.facilityavro;
 
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.mongodb.*;
@@ -96,9 +98,19 @@ public class WriterMongo {
 
 
 
-            DBObject dbObject = (DBObject)JSON.parse(json);
+//            DBObject dbObject = (DBObject)JSON.parse(json);
 
-            collection.save(dbObject);
+            List<Integer> books = Arrays.asList(27464, 747854);
+            DBObject dbObject = new BasicDBObject("_id", "jo")
+                    .append("name", "Jo Bloggs")
+                    .append("address", new BasicDBObject("street", "123 Fake St")
+                            .append("city", "Faketon")
+                            .append("state", "MA")
+                            .append("zip", 12345))
+                    .append("books", books);
+
+
+            collection.insert(dbObject);
 
             DBCursor cursorDocJSON = collection.find();
             while (cursorDocJSON.hasNext()) {
