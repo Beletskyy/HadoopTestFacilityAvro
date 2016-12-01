@@ -28,6 +28,7 @@
                 </property>
             </configuration>
             <main-class>com.nixsolutions.hadoop.facilityavro.WriterMongo</main-class>
+            <arg>${outputDir}</arg>
         </java>
         <ok to="end"/>
         <error to="kill"/>
