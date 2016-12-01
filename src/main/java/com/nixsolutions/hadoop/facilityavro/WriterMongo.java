@@ -11,10 +11,10 @@ public class WriterMongo {
     public static void main(String[] args) {
         try {
             /**** Connect to MongoDB ****/
-            MongoClient mongo = new MongoClient(new MongoClientURI("mongodb://10.10.21.184:27017"));
+            MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://10.10.21.184:27017"));
             //MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
             // Now connect to your databases
-            DB db = mongo.getDB("facility");
+            DB db = mongoClient.getDB("facility");
             System.out.println("db.getName() - " + db.getName());
 
             /**** Get collection / table from 'testdb' ****/
@@ -92,8 +92,9 @@ public class WriterMongo {
             // 4. JSON parse example
             System.out.println("JSON parse example...");
 
-            String json = "{'database' : 'mkyongDB','table' : 'hosting'," +
-                    "'detail' : {'records' : 99, 'index' : 'vps_index1', 'active' : 'true'}}}";
+            String json = "{'hosting' : 'hostA', 'type' : 'vps', 'clients' : 1000}, { 'hosting' : 'hostB', 'type' : 'dedicated server', 'clients' : 100}, { 'hosting' : 'hostC', 'type' : 'vps', 'clients' : 900}";
+
+
 
             DBObject dbObject = (DBObject)JSON.parse(json);
 
