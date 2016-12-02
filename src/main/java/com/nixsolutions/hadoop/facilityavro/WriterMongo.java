@@ -12,33 +12,24 @@ public class WriterMongo {
                     + "HadoopDFSFileRead <inputfile>");
             System.exit(1);
         }
-        // Input file
         String inputPath = args[0]+ "/facility.avro";
         List<String> jsonDataList = Deserializer.getJsonFromAvro(inputPath);
         try {
             /**** Connect to MongoDB ****/
-            MongoClient mongoClient = new MongoClient(new MongoClientURI("mongodb://localhost:27017"));
-            // Now connect to your databases
-            DB db = mongoClient.getDB("goodJson");
-
+            MongoClient mongoClient = new MongoClient(
+                    new MongoClientURI("mongodb://localhost:27017"));
+            /**** Now connect to databases ****/
+            DB db = mongoClient.getDB("facilityDb");
             /**** Get collection / table from 'goodJson' ****/
-            // if collection doesn't exists, MongoDB will create it for you
-            DBCollection collection = db.getCollection("goodJsonColl");
-            DBCursor cursorDocJSON = collection.find();
+            DBCollection collection = db.getCollection("facilityDbColl");
+          //  DBCursor cursorDocJSON = collection.find();
+            /**** Remove old data ****/
             collection.remove(new BasicDBObject());
-
+            /**** Insert new data ****/
             for (String entity: jsonDataList) {
                 DBObject dbObject = (DBObject)JSON.parse(entity);
                 collection.insert(dbObject);
             }
-/*
-            DBCursor cursorDocJSON = collection.find();
-            while (cursorDocJSON.hasNext()) {
-                System.out.println(cursorDocJSON.next());
-            }
-//            collection.remove(new BasicDBObject());
-*/
-
             } catch (MongoException e) {
             e.printStackTrace();
         }
