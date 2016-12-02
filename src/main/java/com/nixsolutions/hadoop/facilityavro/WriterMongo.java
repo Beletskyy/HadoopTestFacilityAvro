@@ -37,6 +37,8 @@ public class WriterMongo {
             } catch (MongoException e) {
             e.printStackTrace();
         }
+
+        
     }*/
 
     public static void main(String[] args) {
@@ -60,8 +62,6 @@ public class WriterMongo {
 
             collection.drop();
 //            collection.remove(new BasicDBObject());
-
-
             collection.insertMany(jsonDataList);
 
 /*            for (String entity: jsonDataList) {
