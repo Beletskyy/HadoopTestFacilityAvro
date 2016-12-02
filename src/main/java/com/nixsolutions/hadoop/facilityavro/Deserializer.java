@@ -49,9 +49,7 @@ class Deserializer {
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
         config.set("fs.default.name", "hdfs://sandbox.hortonworks.com:8020");
         try {
-//            FileSystem fs = FileSystem.get(config);
             Path path = new Path(pathAvroFile);
-            //   FSDataInputStream inputStream = fs.open(path);
             SeekableInput in = new FsInput(path, config);
             DatumReader<GenericRecord> reader
                     = new GenericDatumReader<GenericRecord>();
