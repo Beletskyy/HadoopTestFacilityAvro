@@ -23,10 +23,8 @@ import com.nixsolutions.hadoop.model.Facility;
 import org.apache.avro.file.DataFileWriter;
 import org.apache.avro.io.DatumWriter;
 import org.apache.avro.specific.SpecificDatumWriter;
-import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FSDataOutputStream;
-import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.oozie.client.AuthOozieClient;
 import org.apache.oozie.client.CoordinatorJob;
@@ -43,7 +41,7 @@ import java.util.Properties;
 /**
  * Java action for working with some log file in order to process it and store.
  */
-public class Main {
+public class Main extends PropertyHolder{
 
     private static Facility facility = new Facility();
     private static DatumWriter<Facility> datumWriter = new SpecificDatumWriter<>(
@@ -70,61 +68,18 @@ public class Main {
         // Output file
         String outputPath = args[1];
 
-        Configuration config = new Configuration();
-        config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
-        config.set("fs.default.name", "hdfs://sandbox.hortonworks.com:8020");
-
-        FileSystem fs = FileSystem.get(config);
+        new CoordinatorKiller().killCoord("HadoopTestFacilityAvro");
 
         Path fileNamePath = new Path("" + outputPath + "/facility.avro");
-        System.out.println(System.getProperty("host_properties"));
-        FSDataInputStream fsin = null;
-        FSDataOutputStream fsOut = null;
-        Path propertyFile = new Path("hdfs://sandbox.hortonworks.com:8020/app/config/sandbox.properties");
+
         try {
             if (fs.exists(fileNamePath)) {
                 fs.delete(fileNamePath, true);
             }
-            fsin = fs.open(propertyFile);
             fsOut = fs.create(fileNamePath);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        ByteArrayOutputStream bo = new ByteArrayOutputStream();
-        byte[] b = new byte[1];
-        while(fsin.read(b)!=-1){
-            bo.write(b);
-        }
-        String properties = new String(bo.toByteArray());
-        //load properties for getting host IP
-        Properties prop = new Properties();
-        prop.load(new StringReader(properties));
-        String host = prop.getProperty("host");
-
-        //killing coordinator
-        OozieClient oozie = new AuthOozieClient("http://" + host + ":11000/oozie");
-        List<CoordinatorJob> joblist = null;
-        try {
-            joblist = oozie.getCoordJobsInfo("status=RUNNING", 1, 100);
-//    		System.setProperty("user.name", "root");
-            for (int i = 0; i < joblist.size(); i++) {
-                String result = joblist.get(i).getAppName();
-                if (i > 0 && result.equals("HadoopTestFacilityAvro")) {
-                    oozie.kill(joblist.get(i).getId());
-                }
-            }
-        } catch (OozieClientException e1) {
-            throw new RuntimeException(e1);
-        }
-
-
-
-
-
-
-
-
-
 
 
         // create the source tap
