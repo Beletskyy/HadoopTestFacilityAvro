@@ -1,12 +1,10 @@
 job('MyBuild') {
-
     //section to pass parameters to job
     parameters {
         globalVariableParam('host_properties', 'sandbox', 'name of file for host properties')
         globalVariableParam('customerID', '1000', 'customerID')
         globalVariableParam('ce_supplierId', '1001', 'ce_supplierId')
     }
-
     //Section for establishing connection to git repo with ssh, using
     scm {
         git {
