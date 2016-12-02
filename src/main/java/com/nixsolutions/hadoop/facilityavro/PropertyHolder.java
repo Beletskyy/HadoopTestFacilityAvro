@@ -8,18 +8,15 @@ import org.apache.hadoop.fs.Path;
 
 import java.io.IOException;
 
-/**
- *
- */
-public abstract class PropertyHolder {
-    protected static Configuration config;
-    protected static FileSystem fs;
-    protected static Path propertyFile = new Path("hdfs://sandbox.hortonworks.com:8020/app/config/sandbox.properties");
-    protected static FSDataInputStream fsin = null;
-    protected static FSDataOutputStream fsOut = null;
+abstract class PropertyHolder {
+    static Configuration config;
+    static FileSystem fs;
+    static Path propertyFile = new Path("hdfs://sandbox.hortonworks.com:8020/app/config/sandbox.properties");
+    static FSDataInputStream fsIn = null;
+    static FSDataOutputStream fsOut = null;
 
-    {
-    config = new Configuration();
+    static {
+        config = new Configuration();
         config.addResource(new Path("/HADOOP_HOME/conf/core-site.xml"));
         config.set("fs.default.name", "hdfs://sandbox.hortonworks.com:8020");
         try {
@@ -27,9 +24,5 @@ public abstract class PropertyHolder {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
-
     }
 }

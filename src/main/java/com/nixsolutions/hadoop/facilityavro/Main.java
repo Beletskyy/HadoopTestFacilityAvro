@@ -68,8 +68,7 @@ public class Main extends PropertyHolder{
         // Output file
         String outputPath = args[1];
 
-        new CoordinatorKiller().killCoord("HadoopTestFacilityAvro");
-
+        new CoordinatorKiller().killCoordinator("HadoopTestFacilityAvro");
         Path fileNamePath = new Path("" + outputPath + "/facility.avro");
 
         try {

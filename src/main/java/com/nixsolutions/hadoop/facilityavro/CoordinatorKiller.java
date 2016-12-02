@@ -12,14 +12,14 @@ import java.util.List;
 import java.util.Properties;
 
 
-public class CoordinatorKiller extends PropertyHolder {
+class CoordinatorKiller extends PropertyHolder {
 
-    public void killCoordinator(String coordinatorName) {
+    void killCoordinator(String coordinatorName) {
         ByteArrayOutputStream bo = new ByteArrayOutputStream();
         byte[] b = new byte[1];
         try {
-            fsin = fs.open(propertyFile);
-            while(fsin.read(b)!=-1){
+            fsIn = fs.open(propertyFile);
+            while(fsIn.read(b)!=-1){
                 bo.write(b);
             }
         } catch (IOException e) {
@@ -36,11 +36,11 @@ public class CoordinatorKiller extends PropertyHolder {
         String host = prop.getProperty("host");
         OozieClient oozie = new AuthOozieClient("http://" + host + ":11000/oozie");
         try {
-            List<CoordinatorJob> joblist = oozie.getCoordJobsInfo("status=RUNNING", 1, 100);
-            for (int i = 0; i < joblist.size(); i++) {
-                String result = joblist.get(i).getAppName();
+            List<CoordinatorJob> jobList = oozie.getCoordJobsInfo("status=RUNNING", 1, 100);
+            for (int i = 0; i < jobList.size(); i++) {
+                String result = jobList.get(i).getAppName();
                 if (i > 0 && result.equals(coordinatorName)) {
-                    oozie.kill(joblist.get(i).getId());
+                    oozie.kill(jobList.get(i).getId());
                 }
             }
         } catch (OozieClientException e1) {
