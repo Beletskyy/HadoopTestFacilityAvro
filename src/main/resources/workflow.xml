@@ -17,6 +17,7 @@
         <ok to="mongo"/>
         <error to="kill"/>
     </action>
+
     <action name="mongo">
         <java>
             <job-tracker>${jobTracker}</job-tracker>
