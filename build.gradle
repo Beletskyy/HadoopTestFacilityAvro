@@ -1,11 +1,9 @@
 buildscript {
   repositories {
-  jcenter()	
-    maven { 
-    url 'http://repo.spring.io/plugins-release' 
+    jcenter()
     mavenCentral()
+    maven { url 'http://repo.spring.io/plugins-release' }
     maven { url "http://clojars.org/repo" }
-    }
   }
   dependencies {
     classpath 'com.netflix.nebula:gradle-extra-configurations-plugin:2.2.1'
@@ -17,35 +15,55 @@ buildscript {
   }
 }
 
+//applying different property files, which name is passed through gradle -D property.
+Properties props = new Properties()
+props.load(new FileInputStream("$project.rootDir/environment/sandbox.properties"))
+//props.load(new FileInputStream("$project.rootDir/environment/${System.properties['host_properties']}.properties"))
+
+props.each { prop ->
+  project.ext.set(prop.key, prop.value)
+}
+
+//apply customerID and ce_supplierId to property file, checking whether they exist and rewrite values
+def oozie_property_file = new File('src/main/resources/sandbox_oozie.properties');
+String contents = new File('src/main/resources/sandbox_oozie.properties').getText( 'UTF-8' );
+def customer_Id = '\ncustomerID=' + "${System.properties['customerID']}";
+def supplier_Id = '\nce_supplierId=' + "${System.properties['ce_supplierId']}";
+if(contents.contains("customerID") || contents.contains("ce_supplierId")) {
+  contents = contents.replaceAll('\ncustomerID=(.*)', customer_Id )
+  contents = contents.replaceAll('\nce_supplierId=(.*)', supplier_Id )
+  oozie_property_file.write(contents, 'UTF-8')
+} else {
+  oozie_property_file.append(customer_Id);
+  oozie_property_file.append(supplier_Id);
+}
+
+
+
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'eclipse'
 apply plugin: 'provided-base'
 apply plugin: 'avro-gradle-plugin'
-//apply plugin: 'checkstyle'
-//apply plugin: 'findbugs'
-//apply plugin: 'pmd'
+apply plugin: 'checkstyle'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
 apply plugin: 'org.hidetake.ssh'
 
 archivesBaseName = 'facility'
 
 ext.cascadingVersion = '3.0.0'
-ext.hadoopVersion = '2.6.0'
+ext.hadoopVersion = '2.7.3'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
-//checkstyle.toolVersion = '6.18'
-//findbugs.toolVersion = '3.0.1'
-//pmd.toolVersion = '5.5.2'
-
-dependencies {
-  compileAvro
-}
+checkstyle.toolVersion = '6.18'
+findbugs.toolVersion = '3.0.1'
+pmd.toolVersion = '5.5.2'
 
 compileAvro {
   source = 'src/main/avro'
   destinationDir = file("src/main/java")
-  // Uncomment the following line to explicitly set the Java type
-  // to be emitted for string schemas (here: java.lang.String).
   stringType = 'String'
 }
 
@@ -56,12 +74,14 @@ repositories {
 }
 
 dependencies {
+  compileAvro
   compile( group: 'cascading', name: 'cascading-core', version: cascadingVersion )
   compile( group: 'cascading', name: 'cascading-local', version: cascadingVersion )
   compile( group: 'cascading', name: 'cascading-hadoop2-mr1', version: cascadingVersion )
   compile( group: 'cascading', name: 'cascading-hadoop', version: cascadingVersion )
   compile( group: 'org.apache.avro', name: 'avro', version: '1.7.7')
   compile( group: 'org.apache.avro', name: 'avro-tools', version: '1.7.7')
+  compile( group: 'org.apache.oozie', name: 'oozie-client', version: '4.1.0')
   compile('org.mongodb:mongo-java-driver:3.2.2')
 
 
@@ -85,37 +105,14 @@ jar {
     attributes( "Main-Class": "com/nixsolutions/hadoop/facilityavro/Main" )
   }
 }
-
+//copy dependecies jar files to build/libs
 task install(type: Copy) {
   dependsOn build
   from configurations.runtime
   into "${project.projectDir}/build/libs"
 }
 
-remotes {
-  sandbox {
-    role 'masterNode'
-    host = '10.10.21.184'
-    user = 'root'
-    password = 'hadoop'
-  }
-}
-ssh.settings {
-  knownHosts = allowAnyHosts
-}
-task newTask {
-  dependsOn install
-    ssh.run {
-    session(remotes.sandbox) {
-      execute 'rm -rf build;'
-      execute 'mkdir build; cd build; mkdir config; mkdir libs'
-      put from: file('build/libs/**.*'), into: 'build/libs';
-      put from: file('src/main/resources/**.*'), into: 'build/config';
-    }
-  }
-}
-
-/*
+//checkstyle
 tasks.withType(Checkstyle) {
   reports {
     source 'src'
@@ -126,6 +123,7 @@ tasks.withType(Checkstyle) {
   }
 }
 
+//findbugs
 tasks.withType(FindBugs) {
   reports {
     html.enabled false
@@ -137,6 +135,7 @@ tasks.withType(FindBugs) {
   }
 }
 
+//pmd
 tasks.withType(Pmd) {
   reports {
     ignoreFailures = true
@@ -172,4 +171,42 @@ tasks.withType(Pmd) {
     ]
   }
 }
-*/
+
+//Setting up SSH plugin to connect with remote server
+remotes {
+  sandbox {
+    role 'masterNode'
+    host = project.host
+    user = project.username
+    password = project.password
+  }
+}
+//allow all host to be connected to
+ssh.settings {
+  knownHosts = allowAnyHosts
+}
+//task for executing remote commands
+task deploymenttohost(dependsOn: install) {
+
+  doLast{
+    ssh.run {
+      session(remotes.sandbox) {
+        //execute 'oozie jobs -oozie http://' + project.host + ':11000/oozie -kill -filter name=HadoopTestFacilityAvro -jobtype coordinator';
+        execute 'rm -rf build;'
+        execute 'mkdir build; cd build; mkdir config; mkdir libs'
+        put from: file('build/libs/**.*'), into: 'build/libs';
+        put from: file('src/main/resources/**.*'), into: 'build/config';
+        put from: file('environment/**.*'), into: 'build/config';
+        execute 'hadoop fs -rm -r -f /app';
+        execute 'hdfs dfs -mkdir /app';
+        execute 'hdfs dfs -mkdir /app/config';
+        execute 'hdfs dfs -mkdir /app/jar';
+        execute 'hdfs dfs -put build/libs/**.jar /app/jar/';
+        execute 'hdfs dfs -put build/config/**.* /app/config/';
+
+        execute 'oozie job -oozie http://' + project.host + ':11000/oozie -auth SIMPLE -config build/config/sandbox_oozie.properties -run'
+        execute 'rm -rf build;'
+      }
+    }
+  }
+}

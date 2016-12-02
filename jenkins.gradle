@@ -1,66 +1,48 @@
-job('MyJob') {
+job('MyBuild') {
+
+    //section to pass parameters to job
     parameters {
-        globalVariableParam('hadoop_server', '${GLOBAL_HOST}', 'my sandbox')
-    }
-    scm {
-        github('Beletskyy/HadoopTestFacilityAvro')
+        globalVariableParam('host_properties', 'sandbox', 'name of file for host properties')
+        globalVariableParam('customerID', '1000', 'customerID')
+        globalVariableParam('ce_supplierId', '1001', 'ce_supplierId')
     }
 
+    //Section for establishing connection to git repo with ssh, using
+    scm {
+        git {
+            remote {
+                url('ssh://root@10.10.21.183:22/root/sandbox/HadoopTestFacilityAvro')
+                credentials('''5bddc1dc-e121-4cb1-aef4-37a5c8ebfc7a''')
+            }
+        }
+
+    }
     triggers {
         scm('* * * * *')
     }
     steps {
-        gradle('newTask')
-        publishOverSsh {
-            server('ssh_slava') {
-                label('Sandbox')
-                transferSet {
-                    sourceFiles('build/libs/**.jar')
-                    remoteDirectory('build/libs')
-                    flattenFiles(true)
-                }
-                transferSet {
-                    sourceFiles('src/main/resources/**.*')
-                    remoteDirectory('build/config')
-                    flattenFiles(true)
-                }
-            }
-        }
-
-        remoteShell('root@10.10.21.184:22') {
-           command('hadoop fs -rm -r -f /app')
-           //command('hadoop fs -rm -f /app/config')
-           //command('hadoop fs -rm -f /app/jar')
-           command('hdfs dfs -mkdir /app')
-           command('hdfs dfs -mkdir /app/config')
-           command('hdfs dfs -mkdir /app/jar')
-           command('hdfs dfs -put build/libs*//**.jar /app/jar/')
-           command('hdfs dfs -put build/config*//**.* /app/config/')
-           command('oozie job -oozie http://10.10.21.184:11000/oozie -config build/config/job.properties -run')
-           command('rm -rf build')
-        }
-
+        gradle('deploymenttohost')
     }
-    /*
+
     publishers {
         checkstyle('build/reports/checkstyle/checkstyle-result.xml') {
-                healthLimits(3, 25)
-                thresholdLimit('high')
-                defaultEncoding('UTF-8')
-                canRunOnFailed(true)
-                useStableBuildAsReference(true)
-                useDeltaValues(true)
-                computeNew(true)
-            }
+            healthLimits(3, 25)
+            thresholdLimit('high')
+            defaultEncoding('UTF-8')
+            canRunOnFailed(true)
+            useStableBuildAsReference(true)
+            useDeltaValues(true)
+            computeNew(true)
+        }
         findbugs('build/reports/findbugs/findbugs.xml', false) {
-                healthLimits(3, 25)
-                thresholdLimit('high')
-                defaultEncoding('UTF-8')
-                canRunOnFailed(true)
-                useStableBuildAsReference(true)
-                useDeltaValues(true)
-                computeNew(true)
-            }
+            healthLimits(3, 25)
+            thresholdLimit('high')
+            defaultEncoding('UTF-8')
+            canRunOnFailed(true)
+            useStableBuildAsReference(true)
+            useDeltaValues(true)
+            computeNew(true)
+        }
         pmd('build/reports/pmd/pmd.xml') {
             healthLimits(3, 25)
             thresholdLimit('high')
@@ -71,5 +53,4 @@ job('MyJob') {
             computeNew(true)
         }
     }
-    */
 }
