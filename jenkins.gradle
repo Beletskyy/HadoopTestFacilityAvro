@@ -13,7 +13,6 @@ job('MyBuild') {
                 credentials('''5bddc1dc-e121-4cb1-aef4-37a5c8ebfc7a''')
             }
         }
-
     }
     triggers {
         scm('* * * * *')
